@@ -5,33 +5,32 @@ Linguistic gaming with Python Final Project. A german word game heaviliy inspire
 ## Project structure
 
 
-
 ## Backend
 
 ### Loading words
 
--[ ] 1. have a list with all german words with seven letters
+- [ ] have a list with all german words with seven letters
 
--[ ] 2. choose one of them randomly and display it letters in a random order
+- [ ] 2. choose one of them randomly and display it letters in a random order
 
--[ ] 3. Load all words with 3-7 letters that are possible with the given letters (each letter can only be used once) 
+- [ ] 3. Load all words with 3-7 letters that are possible with the given letters (each letter can only be used once) 
 
 
 ### User input
 
--[ ] 1. make a list of already found words
+- [ ] 1. make a list of already found words
 
--[ ] 2. Read user input while he types
+- [ ] 2. Read user input while he types
 
--[ ] 3. user can only type letters that are in the given letters
+- [ ] 3. user can only type letters that are in the given letters
 
--[ ] 4. user can only type letters that are not already used
+- [ ] 4. user can only type letters that are not already used
 
--[ ] 5. if user types something that is not allowed, it just gets ignored
+- [ ] 5. if user types something that is not allowed, it just gets ignored
 
--[ ] 6. display the typed letters in the correct order
+- [ ] 6. display the typed letters in the correct order
 
--[ ] 7. if the typed letters are a valid word and not find yet, add it to the list of found words and reset input
+- [ ] 7. if the typed letters are a valid word and not find yet, add it to the list of found words and reset input
 
 - [ ] 8. if user press 'esc' reset input
 
