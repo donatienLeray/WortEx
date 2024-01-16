@@ -32,11 +32,13 @@ WortEx/
 
 ### Loading words
 
-- [ ] 1. have a list with all german words with seven letters (Dodo)
+- [x] 1. have a list with all german words with seven letters (Dodo)
 
-- [ ] 2. choose one of them randomly and display it letters in a random order (Dodo)
+- [x] 2. choose one of them randomly and display it letters in a random order (Dodo)
 
-- [ ] 3. Load all words with 3-7 letters that are possible with the given letters (each letter can only be used once) (Dodo)
+- [x] 3. Load all words with 3-7 letters that are possible with the given letters (each letter can only be used once) (Dodo)
+
+- [ ] 4. implement (3.) in an effective way (<= 5 seconds) (dodo)
 
 
 ### User input
@@ -142,7 +144,7 @@ score = scrabble score * (1 / med sscore ) * difficulty
 
 TODO
 
-
+Design: Do somehing with the name of the game (WortEx, Vortex)
 
 ## Extras
 

@@ -17,33 +17,48 @@ import subprocess
 import sys
 import os
 import random
+import warnings
 from itertools import permutations,combinations
 # from spellchecker import SpellChecker
 
 # spell = SpellChecker(language='de')
 
 
-#get a random german word of length 7
+#returns a random german word of length 7
 def get_random_word():
-    # set the path to the file
+    # set the path to the file contaning all the words of length 7
     file_path = os.path.join('data', '7_words.txt')
     
     with open(file_path, 'r', encoding='latin-1') as file:
         #read the file and split it into lines (words)
         words = file.read().splitlines()
+        #throw an error if the file is empty
         if not words:
             raise ValueError(f"The file '{file_path}' is empty.")
         #return a random word
         return random.choice(words).replace(" ", "")
     
 
-
+#retuens all german words that can be made with the letters of the word
 def get_all_possible_words(word):
-    substrings = get_all_combinations(word)
+    
+    #all possible words with length >= 3 only using the letters of the word
+    comb = get_all_combinations(word)
+
     # result1 = spell.known(substrings)
     # print(result1,"\n", len(result1))
-    cleaned_list = [i.replace(" ", "").lower() for i in substrings if word_in_file(i)]
+    
+    # filtre out the words that are not in the list of german words
+    cleaned_list = [i.replace(" ", "") for i in comb if word_in_file(i)]
+    #make sure there are no duplicates and sort alphabetically
     awnser = sorted(list(set(cleaned_list)))
+    #if you used a word from get_random_word() and it did not appear in the list of possible words
+    #something went really wrong else ignore this warning
+    if word not in awnser:
+        message = "The initial word \""+word+"\" is not in the list of possible words.\n\
+            if you used a word from get_random_word() something went really wrong, else ignore this warning!"
+        warnings.warn(message,Warning)
+        
     return sorted(awnser, key=len)
     
 #This must be optimized to be faster
@@ -66,35 +81,34 @@ def word_in_file(word):
     return True
 
 
-
+#returns all possible combinations of the letters of the word with length >= 3
 def get_all_combinations(input_string):
-    comb_list = []
+    
+    comb_list,perm_list = [],[]
 
+    # Loop over the lengths of the combinations to get all possible letter combinations
     for length in range(3, len(input_string) + 1):
         # Use itertools.combinations to get all combinations of the specified length
         combs = combinations(input_string, length)
 
         # Convert the combinations to a list of strings
-        comb_list.extend([''.join(c) for c in combs])
-        
-    permuted_list = []
+        comb_list.extend([''.join(c) for c in combs])  
 
-    for input_string in comb_list:
+    # Loop over the combinations to get all possible letter permutations
+    for comb in comb_list:
         # Use itertools.permutations to get all permutations for each string
-        perms = permutations(input_string)
+        perms = permutations(comb)
 
         # Convert the permutations to a list of strings
-        perm_list = [''.join(p) for p in perms]
-
-        permuted_list.extend(perm_list)
+        perm_list.extend([''.join(p) for p in perms])
         
-    print("comb:",len(comb_list), " perm:", len(permuted_list))
+    print("comb:",len(comb_list), " perm:", len(perm_list))
 
-    return permuted_list
+    return perm_list
 
 
 #word = get_random_word()
-word = "Gewirke"
+word = "gewrke"
 result = get_all_possible_words(word)
 print(result)
 print(len(result))
