@@ -4,16 +4,39 @@ Linguistic gaming with Python Final Project. A german word game heaviliy inspire
 
 ## Project structure
 
+> [!WARNING]  
+> This is just an idea not sure about it at all
+
+```
+WortEx/
+    main.py
+    word.py
+    points.py
+    resources/
+        fonts/
+            Arial_custom.tff
+        sounds/
+            beep.wav
+            right.wav
+            wrong.wav
+            bonus.wav
+            game_over.wav
+        images/
+            backgound.png
+    data/
+        words.txt
+```
+
 
 ## Backend
 
 ### Loading words
 
-- [ ] have a list with all german words with seven letters
+- [ ] 1. have a list with all german words with seven letters (Dodo)
 
-- [ ] 2. choose one of them randomly and display it letters in a random order
+- [ ] 2. choose one of them randomly and display it letters in a random order (Dodo)
 
-- [ ] 3. Load all words with 3-7 letters that are possible with the given letters (each letter can only be used once) 
+- [ ] 3. Load all words with 3-7 letters that are possible with the given letters (each letter can only be used once) (Dodo)
 
 
 ### User input
@@ -58,6 +81,42 @@ possible words = number of possible words
 
 std dev = standard deviation of all scrabble scores of all possible words (https://en.wikipedia.org/wiki/Standard_deviation)
 
+
+<details>
+<summary>How to calculate the standard deviation</summary>
+<br>
+
+1. Calculate the Mean (Average):
+
+$$ \text{Mean} (\bar{x}) = \frac{\text{Sum of all values}}{\text{Number of values}} $$
+
+2. Calculate the Deviations:
+
+$$ \text{Deviation from Mean} = \text{Value} - \text{Mean} $$
+
+3. Square the Deviations:
+
+$$ \text{Squared Deviation} = (\text{Deviation from Mean})^2 $$
+
+4. Calculate the Variance:
+
+$$ \text{Variance} (\sigma^2) = \frac{\text{Sum of Squared Deviations}}{\text{Number of values}} $$
+
+5. Calculate the Standard Deviation:
+
+$$ \text{Standard Deviation} (\sigma) = \sqrt{\text{Variance}} $$
+
+In summary:
+
+$$ \sigma = \sqrt{\frac{\sum{(x - \bar{x})^2}}{N}} $$
+
+where $ \sigma $ is the standard deviation, $ x $ is each individual value, $ \bar{x} $ is the mean, and $ N $ is the number of values.
+
+If working with a sample, use the sample standard deviation formula, involving dividing by $ N-1 $ to correct for bias in the estimation of the population variance.\
+
+</details>
+<br>
+
 (dificulty depending from med sscore and std dev)
 difficulty | possible words <= 20 = 1.5     #hard
            | possible words <= 50 = 1.2     #medium
@@ -83,3 +142,12 @@ score = scrabble score * (1 / med sscore ) * difficulty
 
 TODO
 
+
+
+## Extras
+
+Use https://github.com/bndr/pipreqs to generate requirements.txt
+
+```bash
+pipreqs . --force
+```
