@@ -10,8 +10,9 @@ Linguistic gaming with Python Final Project. A german word game heaviliy inspire
 ```
 WortEx/
     main.py
-    word.py
+    words.py
     points.py
+    start.py
     resources/
         fonts/
             Arial_custom.tff
@@ -24,19 +25,32 @@ WortEx/
         images/
             backgound.png
     data/
-        words.txt
+        7_words.txt
+        german.txt
+    requirements.txt
+    README.md
+    tasks.md
+    .gitignore
 ```
 
 
 ## Backend
 
+## Starting script
+
+- [ ] 1. Before a game can be luched check if all neede dependencys are installed. (python > 3.6, win: findstr, else : grep or rgrep)
+
+- [ ] 2. run `pip install -r requirements.txt`
+
 ### Loading words
 
 - [x] 1. have a list with all german words with seven letters (Dodo)
+  - [ ] 1.1 Sort them by difficulty (see [Point System](/tasks.md#point-system))
 
-- [x] 2. choose one of them randomly and display it letters in a random order (Dodo)
+- [ ] 2. choose one of them randomly according to given diffivulty (Dodo)
 
 - [ ] 3. for each 7 etter word make a lookuptable containing the multiplicator ((1 / med sscore ) * difficulty) needed to calculate the points (Dodo) and information on how many words are possible (>7 and 7). see [Point System](/tasks.md#point-system)
+  - [ ] 3.1 make getter funktion for all prprocessed information
 
 ### User input
 
@@ -78,11 +92,11 @@ WortEx/
 
 - [ ] 1. Method to calculate Scrable Score (Dodo)
 
-- [ ] 2. Methode to calculate points
+- [ ] 2. Methode to calculate points (Dodo)
 
-possible words = number of possible words (preprossesed) (dodo)
+**possible words** = number of possible words (preprossesed) (dodo)
 
-std dev = standard deviation of all scrabble scores of all possible words (https://en.wikipedia.org/wiki/Standard_deviation) (preprossesed) (dodo)
+**std dev** = standard deviation of all scrabble scores of all possible words (https://en.wikipedia.org/wiki/Standard_deviation) (preprossesed) (dodo)
 
 
 <details>
@@ -121,19 +135,19 @@ If working with a sample, use the sample standard deviation formula, involving d
 <br>
 
 (dificulty depending from med sscore and std dev)
-difficulty | possible words <= 20 = 1.5     #hard
+**difficult**y | possible words <= 20 = 1.5     #hard
            | possible words <= 50 = 1.2     #medium
            | possible words > 50  = 1       #easy
 
-scrabble score = scrabbel score of given word
+**scrabble score** = scrabbel score of given word
 
-total sscore = sum of scrable scores of all found words
+**total sscore** = sum of scrable scores of all found words
 
-med sscore = median off all scrabble scores of all possible words
+**med sscore** = median off all scrabble scores of all possible words
 
-multiplicator = (1 / med sscore ) * difficulty (preprossesed) (dodo)
+**multiplicator** = (1 / med sscore ) * difficulty (preprossesed) (dodo)
 
-score = scrabble score * multiplicator (calculated on the go)
+**score** = scrabble score * multiplicator (calculated on the go)
 
 ### Time
 
