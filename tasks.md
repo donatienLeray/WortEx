@@ -36,10 +36,7 @@ WortEx/
 
 - [x] 2. choose one of them randomly and display it letters in a random order (Dodo)
 
-- [x] 3. Load all words with 3-7 letters that are possible with the given letters (each letter can only be used once) (Dodo)
-
-- [ ] 4. implement (3.) in an effective way (<= 5 seconds) (dodo)
-
+- [ ] 3. for each 7 etter word make a lookuptable containing the multiplicator ((1 / med sscore ) * difficulty) needed to calculate the points (Dodo) and information on how many words are possible (>7 and 7). see [Point System](/tasks.md#point-system)
 
 ### User input
 
@@ -55,7 +52,7 @@ WortEx/
 
 - [ ] 6. display the typed letters in the correct order
 
-- [ ] 7. if the typed letters are a valid word and not find yet, add it to the list of found words and reset input
+- [ ] 7. if the typed letters are a valid word and not found yet, add it to the list of found words and reset input
 
 - [ ] 8. if user press 'esc' reset input
 
@@ -79,9 +76,13 @@ WortEx/
 
 #### Score calculation
 
-possible words = number of possible words
+- [ ] 1. Method to calculate Scrable Score (Dodo)
 
-std dev = standard deviation of all scrabble scores of all possible words (https://en.wikipedia.org/wiki/Standard_deviation)
+- [ ] 2. Methode to calculate points
+
+possible words = number of possible words (preprossesed) (dodo)
+
+std dev = standard deviation of all scrabble scores of all possible words (https://en.wikipedia.org/wiki/Standard_deviation) (preprossesed) (dodo)
 
 
 <details>
@@ -130,7 +131,9 @@ total sscore = sum of scrable scores of all found words
 
 med sscore = median off all scrabble scores of all possible words
 
-score = scrabble score * (1 / med sscore ) * difficulty
+multiplicator = (1 / med sscore ) * difficulty (preprossesed) (dodo)
+
+score = scrabble score * multiplicator (calculated on the go)
 
 ### Time
 

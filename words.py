@@ -12,6 +12,12 @@ make an extra list with those of length 7
 
 ??already map the words to there points or make that on the go??
 
+new Idea: preprossees the number of possible awnsers for each word and save it in a file
+
+and everything else neede to calculate the words point (std dev, med sscore, total sscore and difficulty)
+
+do the checking of a word on the go, if it's right callculate the sscore and than the points
+
 """
 import subprocess
 import sys
