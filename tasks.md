@@ -36,21 +36,21 @@ WortEx/
 
 ## Backend
 
-## Starting script
+### Starting script
 
 - [ ] 1. Before a game can be luched check if all neede dependencys are installed. (python > 3.6, win: findstr, else : grep or rgrep)
 
 - [ ] 2. run `pip install -r requirements.txt`
 
-### Loading words
+### Loading words (Dodo)
 
 - [x] 1. have a list with all german words with seven letters (Dodo)
   - [ ] 1.1 Sort them by difficulty (see [Point System](/tasks.md#point-system))
 
 - [ ] 2. choose one of them randomly according to given diffivulty (Dodo)
 
-- [ ] 3. for each 7 etter word make a lookuptable containing the multiplicator ((1 / med sscore ) * difficulty) needed to calculate the points (Dodo) and information on how many words are possible (>7 and 7). see [Point System](/tasks.md#point-system)
-  - [ ] 3.1 make getter funktion for all prprocessed information
+- [ ] 3. for each 7 etter word make a lookuptable containing the multiplicator ((1 / med sscore ) * difficulty) needed to calculate the points (Dodo) and information on how many words are possible (>7 and 7). see [Point System](/tasks.md#point-system) (Dodo)
+  - [ ] 3.1 make getter funktion for all prprocessed information (Dodo)
 
 ### User input
 
@@ -90,11 +90,11 @@ WortEx/
 
 #### Score calculation
 
-- [ ] 1. Method to calculate Scrable Score (Dodo)
+- [ ] 1. Method to calculate Scrable Score 
 
-- [ ] 2. Methode to calculate points (Dodo)
+- [ ] 2. Methode to calculate points 
 
-**possible words** = number of possible words (preprossesed) (dodo)
+**possible words** = number of possible words (preprossesed) (Dodo)
 
 **std dev** = standard deviation of all scrabble scores of all possible words (https://en.wikipedia.org/wiki/Standard_deviation) (preprossesed) (dodo)
 
