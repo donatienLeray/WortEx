@@ -44,6 +44,8 @@ WortEx/
 
 ### Loading words (Dodo)
 
+- [] 0. Make a databank (id:word, multiplicator, [all possible awsers]) use (https://pandas.pydata.org/docs/) 
+
 - [x] 1. have a list with all german words with seven letters (Dodo)
   - [ ] 1.1 Sort them by difficulty (see [Point System](/tasks.md#point-system))
 
