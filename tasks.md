@@ -72,7 +72,7 @@ WortEx/
 
 - [ ] 8. if user press 'esc' reset input
 
-- [ ] 9. if user press 'enter' check if the typed letters, resset input whatsoever
+- [ ] 9. if user press 'enter' check if the typed letters, reset input whatsoever
 
 - [ ] 10. if user press 'backspace' delete last typed letter
 
@@ -131,15 +131,17 @@ $$\sigma = \sqrt{\frac{\sum{(x - \bar{x})^2}}{N}}$$
 
 where $\sigma$ is the standard deviation, $x$ is each individual value, $\bar{x}$ is the mean, and $N$ is the number of values.
 
-If working with a sample, use the sample standard deviation formula, involving dividing by $N-1$ to correct for bias in the estimation of the population variance.\
+If working with a sample, use the sample standard deviation formula, involving dividing by $N-1$ to correct for bias in the estimation of the population variance.
 
 </details>
 <br>
 
-(dificulty depending from med sscore and std dev)
-**difficult**y | possible words <= 20 = 1.5     #hard
-           | possible words <= 50 = 1.2     #medium
-           | possible words > 50  = 1       #easy
+(TODO: difficulty depending on med sscore and std dev)
+```
+possible words <= 20 = 1.5     #hard
+possible words <= 50 = 1.2     #medium
+possible words >  50 = 1       #easy 
+```
 
 **scrabble score** = scrabbel score of given word
 
