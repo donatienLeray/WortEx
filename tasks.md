@@ -2,7 +2,7 @@
 
 Linguistic gaming with Python Final Project. A german word game heaviliy inspired by https://wordhub.com
 
-## Project structure
+## Project Structure
 
 > [!WARNING]  
 > This is just an idea not sure about it at all
@@ -36,25 +36,25 @@ WortEx/
 
 ## Backend
 
-### Starting script
+### Starting Script
 
 - [ ] 1. Before a game can be luched check if all neede dependencys are installed. (python > 3.6, win: findstr, else : grep or rgrep)
 
 - [ ] 2. run `pip install -r requirements.txt`
 
-### Loading words (Dodo)
+### Loading Words (Dodo)
 
-- [] 0. Make a databank (id:word, multiplicator, [all possible awsers]) use (https://pandas.pydata.org/docs/) 
+- [ ] 0. Make a database (id:word, multiplicator, [all possible awsers]) use (https://pandas.pydata.org/docs/) 
 
 - [x] 1. have a list with all german words with seven letters (Dodo)
   - [ ] 1.1 Sort them by difficulty (see [Point System](/tasks.md#point-system))
 
 - [ ] 2. choose one of them randomly according to given diffivulty (Dodo)
 
-- [ ] 3. for each 7 etter word make a lookuptable containing the multiplicator ((1 / med sscore ) * difficulty) needed to calculate the points (Dodo) and information on how many words are possible (>7 and 7). see [Point System](/tasks.md#point-system) (Dodo)
+- [ ] 3. for each 7 letter word make a lookuptable containing the multiplicator ((1 / med sscore ) * difficulty) needed to calculate the points (Dodo) and information on how many words are possible (>7 and 7). see [Point System](/tasks.md#point-system) (Dodo)
   - [ ] 3.1 make getter funktion for all prprocessed information (Dodo)
 
-### User input
+### User Input
 
 - [ ] 1. make a list of already found words
 
@@ -76,7 +76,7 @@ WortEx/
 
 - [ ] 10. if user press 'backspace' delete last typed letter
 
-### Point system
+### Point System
 
 - [ ] 1. Display how many words are possible with the given letters and how many are already found 
 
@@ -90,7 +90,7 @@ WortEx/
 
 - [ ] 3. Words with 7 letters give you +10 seconds
 
-#### Score calculation
+#### Score Calculation
 
 - [ ] 1. Method to calculate Scrable Score 
 
@@ -129,9 +129,9 @@ In summary:
 
 $$ \sigma = \sqrt{\frac{\sum{(x - \bar{x})^2}}{N}} $$
 
-where $ \sigma $ is the standard deviation, $ x $ is each individual value, $ \bar{x} $ is the mean, and $ N $ is the number of values.
+where $\sigma$ is the standard deviation, $x$ is each individual value, $\bar{x}$ is the mean, and $N$ is the number of values.
 
-If working with a sample, use the sample standard deviation formula, involving dividing by $ N-1 $ to correct for bias in the estimation of the population variance.\
+If working with a sample, use the sample standard deviation formula, involving dividing by $N-1$ to correct for bias in the estimation of the population variance.\
 
 </details>
 <br>
