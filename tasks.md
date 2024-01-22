@@ -107,27 +107,27 @@ WortEx/
 
 1. Calculate the Mean (Average):
 
-$$ \text{Mean} (\bar{x}) = \frac{\text{Sum of all values}}{\text{Number of values}} $$
+$$\text{Mean} (\bar{x}) = \frac{\text{Sum of all values}}{\text{Number of values}}$$
 
 2. Calculate the Deviations:
 
-$$ \text{Deviation from Mean} = \text{Value} - \text{Mean} $$
+$$\text{Deviation from Mean} = \text{Value} - \text{Mean}$$
 
 3. Square the Deviations:
 
-$$ \text{Squared Deviation} = (\text{Deviation from Mean})^2 $$
+$$\text{Squared Deviation} = (\text{Deviation from Mean})^2$$
 
 4. Calculate the Variance:
 
-$$ \text{Variance} (\sigma^2) = \frac{\text{Sum of Squared Deviations}}{\text{Number of values}} $$
+$$\text{Variance} (\sigma^2) = \frac{\text{Sum of Squared Deviations}}{\text{Number of values}}$$
 
 5. Calculate the Standard Deviation:
 
-$$ \text{Standard Deviation} (\sigma) = \sqrt{\text{Variance}} $$
+$$\text{Standard Deviation} (\sigma) = \sqrt{\text{Variance}}$$
 
 In summary:
 
-$$ \sigma = \sqrt{\frac{\sum{(x - \bar{x})^2}}{N}} $$
+$$\sigma = \sqrt{\frac{\sum{(x - \bar{x})^2}}{N}}$$
 
 where $\sigma$ is the standard deviation, $x$ is each individual value, $\bar{x}$ is the mean, and $N$ is the number of values.
 
