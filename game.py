@@ -1,5 +1,4 @@
 import pygame
-import pygame.gfxdraw
 import sys
 import math
 
@@ -7,10 +6,13 @@ import math
 pygame.init()
 
 # Set up display
-width, height = 800, 600
+width, height = 1000, 800
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("WortEx")
 
+font = pygame.font.SysFont("Arial", 50)
+
+# set up the center circle
 center_x = width // 2
 center_y = height // 2
 center_radius = 200
@@ -25,7 +27,6 @@ black = (0, 0, 0)
 orange = (255, 165, 0)
 color_unfocused = white
 color_focused = orange
-
 
 # Class for the circle objects
 class WortEx_Circle:
@@ -68,22 +69,39 @@ class WortEx_Circle:
                 screen, color_unfocused, (x, y), inner_circle_radius, width
             )
 
-        font = pygame.font.SysFont("Arial", 50)
         text = font.render(self.letter, True, white)
         text_rect = text.get_rect()
         text_rect.center = (x, y)
         screen.blit(text, text_rect)
 
-
 def draw_time():
-    redraw()
-    font = pygame.font.SysFont("Arial", 50)
-    # in seconds
+    # render the time in seconds
     text = font.render(str((playtime - elapsed_time) // 1000), True, white)
     text_rect = text.get_rect()
     text_rect.center = (width - 100, 50)
     screen.blit(text, text_rect)
 
+def draw_score():
+    text = font.render(str(player_score), True, white)
+    text_rect = text.get_rect()
+    text_rect.center = (100, 50)
+    screen.blit(text, text_rect)
+
+def draw_word():
+    # draw the word the player is currently typing
+    text = font.render(player_word, True, white)
+    text_rect = text.get_rect()
+    text_rect.center = (width // 2, height - 150)
+    screen.blit(text, text_rect)
+
+def draw_found_words():
+    # draw the words the player has already found
+    smaller_font = pygame.font.SysFont("Arial", 20)
+    for i in range(len(word_found)):
+        text = smaller_font.render(word_found[i], True, white)
+        text_rect = text.get_rect()
+        text_rect.center = (50, 120 + i * 20)
+        screen.blit(text, text_rect)
 
 def draw_border(x, y, radius, width, color):
     pygame.draw.circle(screen, color, (x, y), radius, width)
@@ -98,35 +116,6 @@ def draw_inner_circle(angle, center_x, center_y, radius, width, color):
     pygame.draw.circle(screen, color, (x, y), inner_circle_radius, width)
 
 
-circles = []  # this is for keeping track if the circles are focused or not
-chars = ["A", "B", "C", "D", "E", "F", "G"]  # this is expmale array of 7 chars
-# some words that can be found
-words = [
-    "ACE",
-    "AGE",
-    "BAD",
-    "BADGE",
-    "BAE",
-    "BAG",
-    "BED",
-    "BEG",
-    "CAB",
-    "CAGE",
-    "DAB",
-    "DEAF",
-    "DEB",
-    "FACE",
-    "FADE",
-    "FAG",
-    "FED",
-] 
-player_word = ""
-
-player_score = 0
-
-# two minutes of playtime until the game ends
-playtime = 120000
-start_time = pygame.time.get_ticks()
 
 
 def init():
@@ -150,6 +139,10 @@ def init():
 def redraw():
     screen.fill(black)
     draw_border(center_x, center_y, center_radius, center_width, blue)
+    draw_time()
+    draw_score()
+    draw_word()
+    draw_found_words()
 
     for i in range(6):
         circles[i].draw(
@@ -159,8 +152,40 @@ def redraw():
     circles[-1].draw(0, center_x, center_y, center_radius / 2, center_width, True)
 
 
-init()  # drawing the circles for the first time
+circles = []  # this is for keeping track if the circles are focused or not
+chars = ["A", "B", "C", "D", "E", "F", "G"]  # this is expmale array of 7 chars
+# some words that can be found
+words = [
+    "ACE",
+    "AGE",
+    "BAD",
+    "BADGE",
+    "BAE",
+    "BAG",
+    "BEAD",
+    "BED",
+    "BEG",
+    "CAB",
+    "CAFE",
+    "CAGE",
+    "DAB",
+    "DEAF",
+    "DEB",
+    "FACE",
+    "FADE",
+    "FAG",
+    "FED",
+] 
 
+word_found = []
+
+player_word = ""
+player_score = 0
+# two minutes of playtime until the game ends
+playtime = 120000
+start_time = pygame.time.get_ticks()
+
+init()  # drawing the circles for the first time
 # Main game loop
 while True:
     elapsed_time = pygame.time.get_ticks() - start_time
@@ -169,7 +194,7 @@ while True:
         pygame.quit()
         sys.exit()
 
-    draw_time()
+    redraw()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -186,6 +211,9 @@ while True:
                 redraw()
 
             if event.key == pygame.K_BACKSPACE:
+               if len(player_word) == 0:
+                continue
+
                letter = player_word[-1] # get the last letter from the player_word to find the circle
                player_word = player_word[:-1] # remove the last letter from the player_word
 
@@ -211,6 +239,7 @@ while True:
                     if player_word in words:
                         # remove the word from the words array
                         words.remove(player_word)
+                        word_found.append(player_word)
                         player_score += 1
                         print("score: " + str(player_score) + " word: " + player_word)
                         player_word = ""
