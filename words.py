@@ -1,6 +1,6 @@
 """
 make a list of german words with 7 letters:
-https://sourceforge.net/projects/germandict/files/german.7z/download
+https://www.ids-mannheim.de/digspra/kl/projekte/methoden/derewo
 
 load random one of these words
 
@@ -46,7 +46,7 @@ def get_random_word():
     
 
 #retuens all german words that can be made with the letters of the word
-def get_all_possible_words(word):
+def get_all_awnsers(word):
     
     #all possible words with length >= 3 only using the letters of the word
     comb = get_all_combinations(word)
@@ -112,10 +112,27 @@ def get_all_combinations(input_string):
 
     return perm_list
 
+scrabble_score = {
+    'a': 1,  'ä': 6,  'b': 3,  'c': 4,
+    'd': 1,  'e': 1,  'f': 4,  'g': 2,
+    'h': 2,  'i': 1,  'j': 6,  'k': 4,
+    'l': 2,  'm': 3,  'n': 1,  'o': 2,
+    'ö': 8,  'p': 4,  'q': 10, 'r': 1,
+    's': 1,  'ß': 10, 't': 1,  'u': 1,
+    'ü': 6,  'v': 6,  'w': 3,  'x': 8,
+    'y': 10, 'z': 3,
+}
+
+get_score = lambda word: sum([scrabble_score[letter] for letter in word])*multiplier
+
+# must be changed to be more accurate
+multiplier = 1
+get_multiplier = lambda possible: 1.5 if possible <= 10 else 1.2 if possible <= 20 else 1
+
 
 #word = get_random_word()
 word = "gewrke"
-result = get_all_possible_words(word)
+result = get_all_awnsers(word)
 print(result)
 print(len(result))
 
