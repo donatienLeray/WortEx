@@ -9,7 +9,7 @@ Linguistic gaming with Python Final Project. A german word game heaviliy inspire
 - if you have a unix system, you will need  or rgrep
   check with `grep --version`
 
-<!--- should be done automaticly by starting script --->
+<!--- should be done automatically by starting script --->
 install all dependencies with
 ```bash
 pip install -r requirements.txt
