@@ -152,8 +152,8 @@ def redraw():
     circles[-1].draw(0, center_x, center_y, center_radius / 2, center_width, True)
 
 
-circles = []  # this is for keeping track if the circles are focused or not
-chars = ["A", "B", "C", "D", "E", "F", "G"]  # this is expmale array of 7 chars
+
+chars = ["B", "B", "B", "B", "B", "B", "B"]  # this is expmale array of 7 chars
 # some words that can be found
 words = [
     "ACE",
@@ -179,11 +179,15 @@ words = [
 
 word_found = []
 
+circles = []  # this is for keeping track if the circles are focused or not
+
 player_word = ""
 player_score = 0
 # two minutes of playtime until the game ends
 playtime = 120000
 start_time = pygame.time.get_ticks()
+
+typed_counter = 0
 
 init()  # drawing the circles for the first time
 # Main game loop
@@ -217,36 +221,41 @@ while True:
                letter = player_word[-1] # get the last letter from the player_word to find the circle
                player_word = player_word[:-1] # remove the last letter from the player_word
 
-               # unfocus all the circle with the specific letter
-               for i in range(len(circles)):
-                    if circles[i].get_letter() == letter:
-                         circles[i].set_focus(False)
+               # unfocus the last focused circle
+               for i in range(len(circles)- 1, -1, -1):
+                   if circles[i].get_letter() == letter and circles[i].get_focus() == True:
+                       circles[i].set_focus(False)
+                       break
+               
+
                redraw()
 
             # find the pressed key in the chars array
             # and if so set the focus to true
             # and redraw the circles
             for i in range(len(chars)):
-                if event.key == 97 + i:
+                if event.key == ord(chars[i].lower()): 
                     # add the pressed key to the player_word
                     # if its not already in the player_word
-                    if chars[i] not in player_word:
+                    if circles[i].get_focus() == False and typed_counter == 0: 
+                        typed_counter = 1
                         player_word += chars[i]
+                        circles[i].set_focus(True)
 
-                    circles[i].set_focus(True)
                     redraw()
 
-                    if player_word in words:
-                        # remove the word from the words array
-                        words.remove(player_word)
-                        word_found.append(player_word)
-                        player_score += 1
-                        print("score: " + str(player_score) + " word: " + player_word)
-                        player_word = ""
-                        for i in range(len(circles)):
-                            circles[i].set_focus(False)
-                        redraw()
-                    break
+                if player_word in words:
+                    # remove the word from the words array
+                    words.remove(player_word)
+                    word_found.append(player_word)
+                    player_score += 1
+                    print("score: " + str(player_score) + " word: " + player_word)
+                    player_word = ""
+                    for i in range(len(circles)):
+                        circles[i].set_focus(False)
+                    redraw()
+
+            typed_counter = 0
 
     # Update the display
     pygame.display.flip()
