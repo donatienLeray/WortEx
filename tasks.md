@@ -23,7 +23,7 @@ WortEx/
             bonus.wav
             game_over.wav
         images/
-            backgound.png
+            background.png
     data/
         7_words.txt
         german.txt
@@ -38,7 +38,7 @@ WortEx/
 
 ### Starting Script
 
-- [ ] 1. Before a game can be luched check if all neede dependencys are installed. (python > 3.6, win: findstr, else : grep or rgrep)
+- [ ] 1. Before a game can be launched check if all needed dependencies are installed. (python > 3.6, win: findstr, else : grep or rgrep)
 
 - [ ] 2. run `pip install -r requirements.txt`
 
@@ -49,32 +49,32 @@ WortEx/
 - [x] 1. have a list with all german words with seven letters (Dodo)
   - [ ] 1.1 Sort them by difficulty (see [Point System](/tasks.md#point-system))
 
-- [ ] 2. choose one of them randomly according to given diffivulty (Dodo)
+- [ ] 2. choose one of them randomly according to given difficulty (Dodo)
 
 - [ ] 3. for each 7 letter word make a lookuptable containing the multiplicator ((1 / med sscore ) * difficulty) needed to calculate the points (Dodo) and information on how many words are possible (>7 and 7). see [Point System](/tasks.md#point-system) (Dodo)
-  - [ ] 3.1 make getter funktion for all prprocessed information (Dodo)
+  - [ ] 3.1 make getter function for all preprocessed information (Dodo)
 
 ### User Input
 
-- [ ] 1. make a list of already found words
+- [x] 1. make a list of already found words
 
-- [ ] 2. Read user input while he types
+- [x] 2. Read user input while he types
 
-- [ ] 3. user can only type letters that are in the given letters
+- [x] 3. user can only type letters that are in the given letters
 
-- [ ] 4. user can only type letters that are not already used
+- [x] 4. user can only type letters that are not already used
 
-- [ ] 5. if user types something that is not allowed, it just gets ignored
+- [x] 5. if user types something that is not allowed, it just gets ignored
 
-- [ ] 6. display the typed letters in the correct order
+- [x] 6. display the typed letters in the correct order
 
-- [ ] 7. if the typed letters are a valid word and not found yet, add it to the list of found words and reset input
+- [x] 7. if the typed letters are a valid word and not found yet, add it to the list of found words and reset input
 
-- [ ] 8. if user press 'esc' reset input
+- [x] 8. if user press 'esc' reset input
 
 - [ ] 9. if user press 'enter' check if the typed letters, reset input whatsoever
 
-- [ ] 10. if user press 'backspace' delete last typed letter
+- [x] 10. if user press 'backspace' delete last typed letter
 
 ### Point System
 
@@ -82,11 +82,11 @@ WortEx/
 
 - [ ] 2. Display all found words (sorted by length, then alphabetically)
 
-- [ ] 3. Display the score at all times
+- [x] 3. Display the score at all times
 
-- [ ] 2. the score is updated when the user finds a new word
+- [x] 2. the score is updated when the user finds a new word
 
-- [ ] 3. Diplay how many words with 7 letters are possible and how many are already found
+- [ ] 3. Display how many words with 7 letters are possible and how many are already found
 
 - [ ] 3. Words with 7 letters give you +10 seconds
 
@@ -94,7 +94,7 @@ WortEx/
 
 - [ ] 1. Method to calculate Scrable Score 
 
-- [ ] 2. Methode to calculate points 
+- [ ] 2. Method to calculate points 
 
 **possible words** = number of possible words (preprossesed) (Dodo)
 
@@ -155,9 +155,9 @@ possible words >  50 = 1       #easy
 
 ### Time
 
-- [ ] 1. The user has 120 seconds to find as many words as possible
+- [x] 1. The user has 120 seconds to find as many words as possible
 
-- [ ] 2. Display the remaining time
+- [x] 2. Display the remaining time
 
 - [ ] 3. When the time is up, display the score
 
@@ -165,7 +165,7 @@ possible words >  50 = 1       #easy
 
 TODO
 
-Design: Do somehing with the name of the game (WortEx, Vortex)
+Design: Do something with the name of the game (WortEx, Vortex)
 
 ## Extras
 

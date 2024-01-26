@@ -37,12 +37,12 @@ def get_random_word():
     
     with open(file_path, 'r', encoding='latin-1') as file:
         #read the file and split it into lines (words)
-        words = file.read().splitlines()
+        words = file.readlines()
         #throw an error if the file is empty
         if not words:
             raise ValueError(f"The file '{file_path}' is empty.")
         #return a random word
-        return random.choice(words).replace(" ", "")
+        return random.choice(words).strip()
     
 
 #retuens all german words that can be made with the letters of the word
@@ -131,8 +131,7 @@ get_multiplier = lambda possible: 1.5 if possible <= 10 else 1.2 if possible <= 
 
 
 #word = get_random_word()
-word = "gewrke"
-result = get_all_awnsers(word)
-print(result)
-print(len(result))
-
+# word = "gewrke"
+# result = get_all_awnsers(word)
+# print(result)
+# print(len(result))

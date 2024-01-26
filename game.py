@@ -1,6 +1,9 @@
 import pygame
 import sys
 import math
+import words
+import random
+
 
 # Initialize Pygame
 pygame.init()
@@ -143,7 +146,7 @@ def redraw():
     draw_score()
     draw_word()
     draw_found_words()
-
+    
     for i in range(6):
         circles[i].draw(
             i * 360 / 6, center_x, center_y, center_radius / 1.5, center_width, False
@@ -153,32 +156,15 @@ def redraw():
 
 
 
-chars = ["B", "B", "B", "B", "B", "B", "B"]  # this is expmale array of 7 chars
+# get a random word and shuffle the letters
+chars = list(words.get_random_word())
+random.shuffle(chars)
+
 # some words that can be found
-words = [
-    "ACE",
-    "AGE",
-    "BAD",
-    "BADGE",
-    "BAE",
-    "BAG",
-    "BEAD",
-    "BED",
-    "BEG",
-    "CAB",
-    "CAFE",
-    "CAGE",
-    "DAB",
-    "DEAF",
-    "DEB",
-    "FACE",
-    "FADE",
-    "FAG",
-    "FED",
-] 
+# words = words.get_all_awnsers(chars)
 
-word_found = []
-
+words = [] # for all the words that can be found
+word_found = [] # this is for keeping track of the words the player has already found
 circles = []  # this is for keeping track if the circles are focused or not
 
 player_word = ""
@@ -214,8 +200,10 @@ while True:
                 player_word = ""
                 redraw()
 
+            # Backspace action
             if event.key == pygame.K_BACKSPACE:
-               if len(player_word) == 0:
+               # if the player_word is empty then there is nothing to remove and we can continue
+               if len(player_word) == 0: 
                 continue
 
                letter = player_word[-1] # get the last letter from the player_word to find the circle
@@ -226,8 +214,6 @@ while True:
                    if circles[i].get_letter() == letter and circles[i].get_focus() == True:
                        circles[i].set_focus(False)
                        break
-               
-
                redraw()
 
             # find the pressed key in the chars array
@@ -241,15 +227,14 @@ while True:
                         typed_counter = 1
                         player_word += chars[i]
                         circles[i].set_focus(True)
-
                     redraw()
 
                 if player_word in words:
                     # remove the word from the words array
                     words.remove(player_word)
                     word_found.append(player_word)
+                    # TODO: this needs to be replaces with the scrabble score system
                     player_score += 1
-                    print("score: " + str(player_score) + " word: " + player_word)
                     player_word = ""
                     for i in range(len(circles)):
                         circles[i].set_focus(False)
