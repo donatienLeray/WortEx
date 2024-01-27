@@ -79,13 +79,13 @@ class WortEx_Circle:
 
 def draw_time():
     # render the time in seconds
-    text = font.render(str((playtime - elapsed_time) // 1000), True, white)
+    text = font.render("Time: " + str((playtime - elapsed_time) // 1000), True, white)
     text_rect = text.get_rect()
-    text_rect.center = (width - 100, 50)
+    text_rect.center = (width - 120, 50)
     screen.blit(text, text_rect)
 
 def draw_score():
-    text = font.render(str(player_score), True, white)
+    text = font.render("Score: " + str(player_score), True, white)
     text_rect = text.get_rect()
     text_rect.center = (100, 50)
     screen.blit(text, text_rect)
@@ -157,13 +157,14 @@ def redraw():
 
 
 # get a random word and shuffle the letters
-chars = list(words.get_random_word())
+the_word = words.get_random_word()
+chars = list(the_word)
 random.shuffle(chars)
 
 # some words that can be found
-# words = words.get_all_awnsers(chars)
+words = words.get_all_answers(the_word) # for all the words that can be found
 
-words = [] # for all the words that can be found
+# words = [] # for all the words that can be found
 word_found = [] # this is for keeping track of the words the player has already found
 circles = []  # this is for keeping track if the circles are focused or not
 

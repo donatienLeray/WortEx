@@ -12,9 +12,9 @@ make an extra list with those of length 7
 
 ??already map the words to there points or make that on the go??
 
-new Idea: preprossees the number of possible awnsers for each word and save it in a file
+new Idea: preprossees the number of possible answers for each word and save it in a file
 
-and everything else neede to calculate the words point (std dev, med sscore, total sscore and difficulty)
+and everything else needed to calculate the words point (std dev, med sscore, total sscore and difficulty)
 
 do the checking of a word on the go, if it's right callculate the sscore and than the points
 
@@ -32,7 +32,7 @@ from itertools import permutations,combinations
 
 #returns a random german word of length 7
 def get_random_word():
-    # set the path to the file contaning all the words of length 7
+    # set the path to the file containing all the words of length 7
     file_path = os.path.join('data', '7_words.txt')
     
     with open(file_path, 'r', encoding='latin-1') as file:
@@ -46,26 +46,33 @@ def get_random_word():
     
 
 #retuens all german words that can be made with the letters of the word
-def get_all_awnsers(word):
+def get_all_answers(word):
     
     #all possible words with length >= 3 only using the letters of the word
-    comb = get_all_combinations(word)
+    comb = get_all_combinations(word) # so far fast enough
 
     # result1 = spell.known(substrings)
     # print(result1,"\n", len(result1))
     
     # filtre out the words that are not in the list of german words
     cleaned_list = [i.replace(" ", "") for i in comb if word_in_file(i)]
+
+    # some GPT-3.5 maigc from ChatGPT (does the same as the line obove but i don't think this is faster
+    # cleaned_list = list(filter(lambda x: word_in_file(x) and ' ' not in x, comb))
+
     #make sure there are no duplicates and sort alphabetically
-    awnser = sorted(list(set(cleaned_list)))
+    answer = sorted(list(set(cleaned_list))) # so far fast enough
+
     #if you used a word from get_random_word() and it did not appear in the list of possible words
     #something went really wrong else ignore this warning
-    if word not in awnser:
-        message = "The initial word \""+word+"\" is not in the list of possible words.\n\
+    if word not in answer:
+        message = "The initial word \"" + word + "\" is not in the list of possible words.\n\
             if you used a word from get_random_word() something went really wrong, else ignore this warning!"
         warnings.warn(message,Warning)
         
-    return sorted(awnser, key=len)
+    #return sorted(answer, key=len)
+    return answer
+
     
 #This must be optimized to be faster
 #idea 1: use a trie
@@ -129,9 +136,17 @@ get_score = lambda word: sum([scrabble_score[letter] for letter in word])*multip
 multiplier = 1
 get_multiplier = lambda possible: 1.5 if possible <= 10 else 1.2 if possible <= 20 else 1
 
+# setting up a timer to measure the time it takes to calculate the possible words
+# import timeit
+# start = timeit.default_timer()
+# print(get_all_answers("gewrker"))
+# stop = timeit.default_timer()
+# print('Time: ', stop - start)
+
+
 
 #word = get_random_word()
 # word = "gewrke"
-# result = get_all_awnsers(word)
+# result = get_all_answers(word)
 # print(result)
 # print(len(result))
