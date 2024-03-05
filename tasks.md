@@ -11,8 +11,9 @@ Linguistic gaming with Python Final Project. A german word game heaviliy inspire
 WortEx/
     main.py
     words.py
-    points.py
-    start.py
+    game.py
+    score.py
+    menu.py
     resources/
         fonts/
             Arial_custom.tff
@@ -25,8 +26,11 @@ WortEx/
         images/
             background.png
     data/
-        7_words.txt
-        german.txt
+        german.db
+        english.db
+        spanish.db
+        french.db
+        scores.db
     requirements.txt
     README.md
     tasks.md
