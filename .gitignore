@@ -1,3 +1,6 @@
+# ignore all data files
+/data/*
+
 # Pygame build process: config.py setup.py
 /Setup
 *.pyc

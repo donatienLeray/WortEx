@@ -14,3 +14,11 @@ install all dependencies with
 ```bash
 pip install -r requirements.txt
 ```
+
+### How to run
+
+```bash
+python main.py
+```
+
+### How to play
