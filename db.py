@@ -108,7 +108,7 @@ def _init_word_freq_table(table_name,file_path):
                 
             # Print a status message every 1000 words
             if count % 1000 == 0:
-                print(f"Inserted {count} {table_name}", end='\r')
+                print(f"Inserted {count} {table_name}")
                     
                     
     # commit the changes
@@ -199,7 +199,7 @@ def _init_dictionary(url, table_name):
             
             # Print a status message every 1000 words
             if count % 1000 == 0:
-                print(f"Inserted {count} {table_name}", end='\r')
+                print(f"Inserted {count} {table_name}")
            
         # commit the changes
         con.commit()  
@@ -250,7 +250,7 @@ def _update_seven_letter_words(table_name,origin_table):
             
         # Print a status message every 1000 words
         if count % 1000 == 0:
-            print(f"Updated {count} {table_name}", end='\r')
+            print(f"Updated {count} {table_name}")
     
     # commit the changes
     con.commit()
@@ -281,10 +281,10 @@ def _calculate_points(awnsers,points):
     # calculate relative frequency
     rel_freq = [point/MAX_FREQ for point in points]
     # calculate the points of a words depending on there relativ frequency
-    result = [(len(awnsers[i])- 2) * (1 + 10 * (1-rel_freq[i])) for i in range(len(awnsers))]
+    result = [(len(awnsers[i])- 2) * (1 + 10 * (1-rel_freq[i])) / 20 for i in range(len(awnsers))]
     # caculate factor depending on the average points
     # TODO: make it more accurate
-    factor = (sum(result)/len(result))/20
+    factor = (sum(result)/len(result))
     return [int(round(i*factor)) for i in result]
 
 
