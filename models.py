@@ -2,7 +2,8 @@ from datetime import datetime
 import sqlite3
 import os
 
-language='german'
+languages = ['german', 'english']
+language = languages[0]
 
 db_path = os.path.join('db', 'words.sqlite')
 con = sqlite3.connect(db_path)
@@ -49,7 +50,7 @@ def get_scores():
     
     scores=[]
     for row in cur.fetchall():
-        scores.append((row[1], row[2]))
+        scores.append((row[0], row[1]))
      
     # if there are more than 10 scores in the database, delete the lowest scores   
     cur.execute('SELECT COUNT(*) FROM scores')
@@ -58,6 +59,20 @@ def get_scores():
         con.commit()
         
     return scores
+
+# set the language to the next language in the list
+def change_language():
+    global language
+    index = languages.index(language)
+    index += 1
+    if index >= len(languages):
+        index = 0
+    language = languages[index]
+    
+
+# get the language
+def get_language():
+    return language
 
 
 # reset the scores in the database

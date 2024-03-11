@@ -1,4 +1,0 @@
-import game
-
-
-game.run()

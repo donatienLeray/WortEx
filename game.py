@@ -293,3 +293,5 @@ def run():
             # Update the display
             pygame.display.flip()
             pygame.time.Clock().tick(60)
+            
+run()

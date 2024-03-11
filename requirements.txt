@@ -1,1 +1,3 @@
 pygame==2.4.0
+pygame_ce==2.4.1
+Requests==2.31.0

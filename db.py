@@ -21,7 +21,7 @@ import requests
 MAX_FREQ = 34671177
 
 
-db_path = os.path.join('db', 'test.sqlite')
+db_path = os.path.join('db', 'words.sqlite')
 con = sqlite3.connect(db_path)
 cur = con.cursor()
 
@@ -370,9 +370,11 @@ def _init_scores_table():
 # main
 def main():
     german_freq = os.path.join('data', 'result.txt') #data from https://github.com/gambolputty/dewiki-wordrank
-    _init_word_freq_table('german_words',german_freq)
-    _init_seven_letter_words('german','german_words')
+    #_init_word_freq_table('german_words',german_freq)
+    #_init_seven_letter_words('german','german_words')
     #_update_seven_letter_words('german','german_words')
+    _init_scores_table()
+    
   
 main()  
 
