@@ -12,7 +12,7 @@ def get_word():
     response = None
     while response == None:
         # select a random word from seven_letter_words
-        cur.execute(f'SELECT word FROM {language} ORDER BY RANDOM() LIMIT 1')
+        cur.execute(f'SELECT * FROM {language} ORDER BY RANDOM() LIMIT 1')
         response = cur.fetchone()
         if response == None:
             print('No word found, trying again')
@@ -27,12 +27,9 @@ def get_word():
     # make a dictionary with the awnsers and there points
     dict = {}
     for i in range(len(awnsers)):
-        dict[awnsers[i]] = points[i]
+        dict[str(awnsers[i])] = int(points[i])
     
     return word, dict
 
 def close():
     con.close()
-
-# male sure con gets closed
-con.close()
