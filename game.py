@@ -35,8 +35,8 @@ color_focused = orange
 class WortEx_Circle:
     # The circle should be darwn and the letter should be placed in the center
     # of the circle. The letter should be drawn in the center of the circle
-    def __init__(self, letter, focus: bool):
-        self.letter = letter
+    def __init__(self, letter: str, focus: bool):
+        self.letter = letter.upper()
         self.focus = focus
 
     def set_letter(self, letter):
@@ -92,7 +92,7 @@ def draw_score():
 
 def draw_word():
     # draw the word the player is currently typing
-    text = font.render(player_word, True, white)
+    text = font.render(player_word.upper(), True, white)
     text_rect = text.get_rect()
     text_rect.center = (width // 2, height - 150)
     screen.blit(text, text_rect)
@@ -101,7 +101,7 @@ def draw_found_words():
     # draw the words the player has already found
     smaller_font = pygame.font.SysFont("Arial", 20)
     for i in range(len(word_found)):
-        text = smaller_font.render(word_found[i], True, white)
+        text = smaller_font.render(word_found[i].upper(), True, white)
         text_rect = text.get_rect()
         text_rect.center = (50, 120 + i * 20)
         screen.blit(text, text_rect)
@@ -176,16 +176,14 @@ def redraw():
 # get a random word and shuffle the letters
 the_word, answer = models.get_word()
 
-models = list(answer.keys())
+words = list(answer.keys())
 
+# get the chars of the word and shuffle them to display them in circle randomly
 chars = list(the_word)
 random.shuffle(chars)
 
 max_words = str(len(answer.keys()))
 
-# possible_words = len(words)
-
-# words = [] # for all the words that can be found
 word_found = [] # this is for keeping track of the words the player has already found
 
 circles = []  # this is for keeping track if the circles are focused or not
@@ -198,12 +196,14 @@ start_time = pygame.time.get_ticks()
 
 typed_counter = 0
 
+# Here we do the start menu
+
 init()  # drawing the circles for the first time
 # Main game loop
 while True:
     elapsed_time = pygame.time.get_ticks() - start_time
 
-    if elapsed_time >= playtime or len(models) == 0:
+    if elapsed_time >= playtime or len(words) == 0:
         draw_score_board()
         pygame.display.flip()
         pygame.time.Clock().tick(60)
@@ -235,7 +235,7 @@ while True:
                    if len(player_word) == 0: 
                     continue
 
-                   letter = player_word[-1] # get the last letter from the player_word to find the circle
+                   letter = player_word[-1].upper() # get the last letter from the player_word to find the circle
                    player_word = player_word[:-1] # remove the last letter from the player_word
 
                    # unfocus the last focused circle
@@ -249,25 +249,44 @@ while True:
                 # and if so set the focus to true
                 # and redraw the circles
                 for i in range(len(chars)):
+
+                    # if the pressed key is the same as the letter in the circle
                     if event.key == ord(chars[i].lower()): 
+
                         # add the pressed key to the player_word
                         # if its not already in the player_word
                         if circles[i].get_focus() == False and typed_counter == 0: 
-                            typed_counter = 1
+
+                            # set the typed_counter to 1 so the player can't 
+                            # type multiple letters at once
+                            typed_counter = 1 
+                            
+                            # add the letter to the player_word
                             player_word += chars[i]
                             circles[i].set_focus(True)
-                        redraw()
 
-                    if player_word in models:
+                    
+                    # if the player_word is found in the words array
+                    if player_word in words:
                         # remove the word from the words array
-                        models.remove(player_word)
+                        words.remove(player_word)
+
+                        # append to the word_found array to later 
+                        # visualize the words the player has found
                         word_found.append(player_word)
-                        # TODO: this needs to be replaces with the scrabble score system
-                        player_score += 1
+
+                        # since the word has stored it's points in the answer 
+                        # dictionary we can just add them to the player_score
+                        player_score += answer[player_word] 
+
+                        # reset the player_word
                         player_word = ""
+
+                        # unfocus all the circles
                         for i in range(len(circles)):
                             circles[i].set_focus(False)
-                        redraw()
+
+                    redraw()
 
                 typed_counter = 0
 
