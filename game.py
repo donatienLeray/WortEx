@@ -119,7 +119,7 @@ def draw_inner_circle(angle, center_x, center_y, radius, width, color):
     pygame.draw.circle(screen, color, (x, y), inner_circle_radius, width)
 
 def draw_words_counter():
-# draw the words the player has already found
+    # draw the words the player has already found
     smaller_font = pygame.font.SysFont("Arial", 20)
     words_found = len(word_found)
     text = smaller_font.render("Words found: " + str(words_found) + "/" + max_words , True, white)
@@ -213,64 +213,64 @@ while True:
                 pygame.quit()
                 sys.exit()
     else:
-     redraw()
+        redraw()
 
-     for event in pygame.event.get():
-         if event.type == pygame.QUIT:
-             pygame.quit()
-             sys.exit()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
 
-         # if a key is pressed
-         if event.type == pygame.KEYDOWN:
-             # if escape is pressed the game unfocuses all circles
-             if event.key == pygame.K_ESCAPE:
-                 for i in range(len(circles)):
-                     circles[i].set_focus(False)
-                 player_word = ""
-                 redraw()
-
-             # Backspace action
-             if event.key == pygame.K_BACKSPACE:
-                # if the player_word is empty then there is nothing to remove and we can continue
-                if len(player_word) == 0: 
-                 continue
-
-                letter = player_word[-1] # get the last letter from the player_word to find the circle
-                player_word = player_word[:-1] # remove the last letter from the player_word
-
-                # unfocus the last focused circle
-                for i in range(len(circles)- 1, -1, -1):
-                    if circles[i].get_letter() == letter and circles[i].get_focus() == True:
+            # if a key is pressed
+            if event.type == pygame.KEYDOWN:
+                # if escape is pressed the game unfocuses all circles
+                if event.key == pygame.K_ESCAPE:
+                    for i in range(len(circles)):
                         circles[i].set_focus(False)
-                        break
-                redraw()
+                    player_word = ""
+                    redraw()
 
-             # find the pressed key in the chars array
-             # and if so set the focus to true
-             # and redraw the circles
-             for i in range(len(chars)):
-                 if event.key == ord(chars[i].lower()): 
-                     # add the pressed key to the player_word
-                     # if its not already in the player_word
-                     if circles[i].get_focus() == False and typed_counter == 0: 
-                         typed_counter = 1
-                         player_word += chars[i]
-                         circles[i].set_focus(True)
-                     redraw()
+                # Backspace action
+                if event.key == pygame.K_BACKSPACE:
+                   # if the player_word is empty then there is nothing to remove and we can continue
+                   if len(player_word) == 0: 
+                    continue
 
-                 if player_word in words:
-                     # remove the word from the words array
-                     words.remove(player_word)
-                     word_found.append(player_word)
-                     # TODO: this needs to be replaces with the scrabble score system
-                     player_score += 1
-                     player_word = ""
-                     for i in range(len(circles)):
-                         circles[i].set_focus(False)
-                     redraw()
+                   letter = player_word[-1] # get the last letter from the player_word to find the circle
+                   player_word = player_word[:-1] # remove the last letter from the player_word
 
-             typed_counter = 0
+                   # unfocus the last focused circle
+                   for i in range(len(circles)- 1, -1, -1):
+                       if circles[i].get_letter() == letter and circles[i].get_focus() == True:
+                           circles[i].set_focus(False)
+                           break
+                   redraw()
 
-     # Update the display
-     pygame.display.flip()
-     pygame.time.Clock().tick(60)
+                # find the pressed key in the chars array
+                # and if so set the focus to true
+                # and redraw the circles
+                for i in range(len(chars)):
+                    if event.key == ord(chars[i].lower()): 
+                        # add the pressed key to the player_word
+                        # if its not already in the player_word
+                        if circles[i].get_focus() == False and typed_counter == 0: 
+                            typed_counter = 1
+                            player_word += chars[i]
+                            circles[i].set_focus(True)
+                        redraw()
+
+                    if player_word in words:
+                        # remove the word from the words array
+                        words.remove(player_word)
+                        word_found.append(player_word)
+                        # TODO: this needs to be replaces with the scrabble score system
+                        player_score += 1
+                        player_word = ""
+                        for i in range(len(circles)):
+                            circles[i].set_focus(False)
+                        redraw()
+
+                typed_counter = 0
+
+        # Update the display
+        pygame.display.flip()
+        pygame.time.Clock().tick(60)
