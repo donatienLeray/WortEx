@@ -80,5 +80,17 @@ def reset_scores():
     cur.execute('DELETE FROM scores')
     con.commit()
 
+def check_database():
+    # check if the tables exist
+    cur.execute('SELECT name FROM sqlite_master WHERE type="table"')
+    tables = cur.fetchall()
+    for language in languages:
+        if (language,) not in tables:
+            print (f'Table {language} does not exist')
+            return False
+    else:
+        return 'score' in tables
+ 
+# close the connection to the database
 def close():
     con.close()
