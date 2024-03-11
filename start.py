@@ -29,8 +29,8 @@ class Particle(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=(x, y))
         self.angle = 0
         self.radius = radius
-        average_speed = 15 - radius**2 // 10000
-        self.speed = random.uniform(0.5*average_speed, average_speed)
+        max_speed = 15 - radius**2 // 10000
+        self.speed = random.uniform(0.5*max_speed, max_speed)
 
     def update(self):
         self.angle += self.speed
