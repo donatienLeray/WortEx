@@ -122,7 +122,7 @@ def draw_words_counter():
 # draw the words the player has already found
     smaller_font = pygame.font.SysFont("Arial", 20)
     words_found = len(word_found)
-    text = smaller_font.render("Words found: " + str(words_found) + "/" + str(possible_words), True, white)
+    text = smaller_font.render("Words found: " + str(words_found) + "/" + max_words , True, white)
     text_rect = text.get_rect()
     text_rect.center = (int(width / 2),  50)
     screen.blit(text, text_rect)
@@ -174,15 +174,16 @@ def redraw():
     circles[-1].draw(0, center_x, center_y, center_radius / 2, center_width, True)
 
 # get a random word and shuffle the letters
-# the_word = words.get_random_word()
-the_word = "ABCDEFG"
+the_word, answer = words.get_word()
+
+words = list(answer.keys())
+
 chars = list(the_word)
 random.shuffle(chars)
 
-# some words that can be found
-# words = words.get_all_answers(the_word) # for all the words that can be found
-words = ["FACE", "FADE", "DEAF", "CAB", "CAFE", "BAD", "BED", "FED", "ACE", "FAD", "FAB", "DAB", "CAD", "FACED"]
-possible_words = len(words)
+max_words = str(len(answer.keys()))
+
+# possible_words = len(words)
 
 # words = [] # for all the words that can be found
 word_found = [] # this is for keeping track of the words the player has already found
