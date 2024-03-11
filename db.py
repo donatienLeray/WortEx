@@ -225,10 +225,56 @@ def _init_seven_letter_words(table_name,origin_table):
          WHERE LENGTH(word) = 7
      ''')
     
+    print(f"Inserted {cur.rowcount} {table_name}")
+    
     # commit the changes
     con.commit()
-    _update_seven_letter_words(table_name,origin_table)
     
+    _delete_anagrams(table_name)
+    
+    _update_seven_letter_words(table_name,origin_table)
+
+
+# delete anamorphs from table_name
+def _delete_anagrams(table_name):
+    
+    count = 0
+    
+    # get all words from table_name
+    cur.execute(f'''SELECT word FROM {table_name}''')
+    words = cur.fetchall()
+    
+    for word in words:
+        
+        # is the word still in table_name
+        cur.execute(f'''SELECT word FROM {table_name} WHERE word = ?''', (word[0],))
+        is_valid = cur.fetchone()
+        
+        if is_valid:
+            # get all permutation of a word as string list
+            perms = [''.join(perm) for perm in permutations(word[0])]
+            # remove the word itself from the list
+            perms.remove(word[0])
+            
+            # for each permutation delete it from table_name
+            for perm in perms:
+                cur.execute(f'''DELETE FROM {table_name} WHERE word = ?''', (perm,))
+                if cur.rowcount > 0:
+                    count += 1
+                    # Print a status message every 1000 words
+                    if count % 1000 == 0:
+                        print(f"Deleted {count} anagrams")
+            
+            # commit the changes
+            con.commit()
+        
+
+    cur.execute(f'''SELECT word FROM {table_name}''')       
+    print(f"Total deleted anamgrams: {count}")
+    print(f"german: {cur.rowcount}")
+
+
+# update awnsers and points of table_name with words from origin_table    
 def _update_seven_letter_words(table_name,origin_table):
     
     #for each word in table_name get all possible words that can be made with the letters of the word
@@ -249,7 +295,7 @@ def _update_seven_letter_words(table_name,origin_table):
             count += 1
             
         # Print a status message every 1000 words
-        if count % 1000 == 0:
+        if count % 250 == 0:
             print(f"Updated {count} {table_name}")
     
     # commit the changes
@@ -281,7 +327,7 @@ def _calculate_points(awnsers,points):
     # calculate relative frequency
     rel_freq = [point/MAX_FREQ for point in points]
     # calculate the points of a words depending on there relativ frequency
-    result = [(len(awnsers[i])- 2) * (1 + 10 * (1-rel_freq[i])) / 20 for i in range(len(awnsers))]
+    result = [1 + ((len(awnsers[i])- 2) * (1 + 10 * (1-rel_freq[i])) / 10) for i in range(len(awnsers))]
     # caculate factor depending on the average points
     # TODO: make it more accurate
     factor = (sum(result)/len(result))
