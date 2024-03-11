@@ -1,2 +1,4 @@
 import game
 
+
+game.run()
