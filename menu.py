@@ -2,6 +2,8 @@ import pygame
 import sys
 import subprocess
 import models
+import game
+import score
 
 # Initialize Pygame
 pygame.init()
@@ -26,14 +28,12 @@ def draw_text(text, size, color, x, y):
     screen.blit(text_surface, text_rect)
 
 def run_game():
-    pygame.quit()
-    subprocess.run(["python", "game.py"])
-    sys.exit()
+    game.run()
     
 
 def run_scoreboard():
-    subprocess.run(["python", "score.py"])
-
+    score.run()
+    
 # Menu loop
 def main_menu():
     while True:

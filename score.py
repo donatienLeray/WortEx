@@ -4,66 +4,67 @@ import sys
 import datetime
 import models
 
-# Initialize Pygame
-pygame.init()
+def run():
+    # Initialize Pygame
+    pygame.init()
 
-# Constants
-WIDTH, HEIGHT = 800, 800
-FPS = 60
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-FONT_SIZE = 24
-BORDER_RADIUS = 10
+    # Constants
+    WIDTH, HEIGHT = 800, 800
+    FPS = 60
+    WHITE = (255, 255, 255)
+    BLACK = (0, 0, 0)
+    RED = (255, 0, 0)
+    FONT_SIZE = 24
+    BORDER_RADIUS = 10
 
-# Set up the display
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Scoreboard")
+    # Set up the display
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    pygame.display.set_caption("Scoreboard")
 
-# Example scores list
-# scores = [(100, datetime.datetime.now()), (75, datetime.datetime.now())]
-# for i in range(8):
-#     scores.append((50, datetime.datetime.now()))
+    # Example scores list
+    # scores = [(100, datetime.datetime.now()), (75, datetime.datetime.now())]
+    # for i in range(8):
+    #     scores.append((50, datetime.datetime.now()))
 
-# Function to draw the scoreboard
-def draw_scoreboard():
-    screen.fill(BLACK)
+    # Function to draw the scoreboard
+    def draw_scoreboard():
+        screen.fill(BLACK)
 
-    # Draw title
-    draw_text("Scoreboard",FONT_SIZE+30, WHITE, WIDTH // 2, 50)
+        # Draw title
+        draw_text("Scoreboard",FONT_SIZE+30, WHITE, WIDTH // 2, 50)
 
-    # Draw each score entryfont
-    y_position = 100
-    scores = models.get_scores()
-    for score, timestamp in scores:
-        score_text = f"Score: {score}"
-        timestamp_text = f"Time: {timestamp}"
+        # Draw each score entryfont
+        y_position = 100
+        scores = models.get_scores()
+        for score, timestamp in scores:
+            score_text = f"Score: {score}"
+            timestamp_text = f"Time: {timestamp}"
 
-        pygame.draw.rect(screen, WHITE, (200, y_position, 400, 40), border_radius=BORDER_RADIUS)
-        draw_text(score_text, FONT_SIZE+10, BLACK, WIDTH // 2, y_position + 18)
-        draw_text(timestamp_text, FONT_SIZE-8, BLACK, WIDTH // 2, y_position + 33)
+            pygame.draw.rect(screen, WHITE, (200, y_position, 400, 40), border_radius=BORDER_RADIUS)
+            draw_text(score_text, FONT_SIZE+10, BLACK, WIDTH // 2, y_position + 18)
+            draw_text(timestamp_text, FONT_SIZE-8, BLACK, WIDTH // 2, y_position + 33)
 
-        y_position += 50
+            y_position += 50
 
-    #pygame.display.flip()
-    return y_position
+        #pygame.display.flip()
+        return y_position
 
-# Function to display the scoreboard
-def display_scoreboard():
-    running = True
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                x, y = pygame.mouse.get_pos()
-                if reset_button.collidepoint(x, y):
-                    models.reset_scores()
-                elif menu_button.collidepoint(x, y):
-                    pygame.quit()
-                    subprocess.run(["python", "menu.py"])
-                    sys.exit()
-                    
+    # Function to display the scoreboard
+    def display_scoreboard():
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    x, y = pygame.mouse.get_pos()
+                    if reset_button.collidepoint(x, y):
+                        models.reset_scores()
+                    elif menu_button.collidepoint(x, y):
+                        pygame.quit()
+                        subprocess.run(["python", "menu.py"])
+                        sys.exit()
+
                     
 
         y_postion= draw_scoreboard()+30
