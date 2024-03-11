@@ -327,7 +327,7 @@ def _calculate_points(awnsers,points):
     # calculate relative frequency
     rel_freq = [point/MAX_FREQ for point in points]
     # calculate the points of a words depending on there relativ frequency
-    result = [1 + ((len(awnsers[i])- 2) * (1 + 10 * (1-rel_freq[i])) / 10) for i in range(len(awnsers))]
+    result = [1 + ((len(awnsers[i])- 2) * (1 + 10 * (1-rel_freq[i])) / 15) for i in range(len(awnsers))]
     # caculate factor depending on the average points
     # TODO: make it more accurate
     factor = (sum(result)/len(result))
@@ -359,6 +359,14 @@ def get_all_combinations(word):
 
     return perm_list
 
+
+# create table scores with score, timestamp if not exists
+def _init_scores_table():
+    # create table scores with score, timestamp if not exists
+    cur.execute(f'CREATE TABLE IF NOT EXISTS scores (score INTEGER, timestamp TEXT)')
+    con.commit()
+    
+    
 # main
 def main():
     german_freq = os.path.join('data', 'result.txt') #data from https://github.com/gambolputty/dewiki-wordrank

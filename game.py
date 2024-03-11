@@ -1,7 +1,7 @@
 import pygame
 import sys
 import math
-import words
+import models
 import random
 
 
@@ -174,9 +174,9 @@ def redraw():
     circles[-1].draw(0, center_x, center_y, center_radius / 2, center_width, True)
 
 # get a random word and shuffle the letters
-the_word, answer = words.get_word()
+the_word, answer = models.get_word()
 
-words = list(answer.keys())
+models = list(answer.keys())
 
 chars = list(the_word)
 random.shuffle(chars)
@@ -203,7 +203,7 @@ init()  # drawing the circles for the first time
 while True:
     elapsed_time = pygame.time.get_ticks() - start_time
 
-    if elapsed_time >= playtime or len(words) == 0:
+    if elapsed_time >= playtime or len(models) == 0:
         draw_score_board()
         pygame.display.flip()
         pygame.time.Clock().tick(60)
@@ -258,9 +258,9 @@ while True:
                             circles[i].set_focus(True)
                         redraw()
 
-                    if player_word in words:
+                    if player_word in models:
                         # remove the word from the words array
-                        words.remove(player_word)
+                        models.remove(player_word)
                         word_found.append(player_word)
                         # TODO: this needs to be replaces with the scrabble score system
                         player_score += 1
