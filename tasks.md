@@ -10,10 +10,12 @@ Linguistic gaming with Python Final Project. A german word game heaviliy inspire
 ```
 WortEx/
     main.py
-    models.py
+    start.py
     game.py
-    db.py
     menu.py
+    score.py
+    models.py
+    db.py
     db/
         words.db
     requirements.txt
@@ -27,9 +29,9 @@ WortEx/
 
 ### Starting Script
 
-- [ ] 1. Before a game can be launched check if all needed dependencies are installed. (python > 3.6, win: findstr, else : grep or rgrep)
+- [x] 1. Before a game can be launched check if all needed dependencies are installed. (python > 3.6, win: findstr, else : grep or rgrep)
 
-- [ ] 2. run `pip install -r requirements.txt`
+- [x] 2. run `pip install -r requirements.txt`
 
 ### Loading Words (Dodo)
 
@@ -40,7 +42,7 @@ WortEx/
 
 - [ ] 2. choose one of them randomly according to given difficulty (Dodo)
 
-- [ ] 3. for each 7 letter word make a lookuptable containing the multiplicator ((1 / med sscore ) * difficulty) needed to calculate the points (Dodo) and information on how many words are possible (>7 and 7). see [Point System](/tasks.md#point-system) (Dodo)
+- [x] 3. for each 7 letter word make a lookuptable containing the multiplicator ((1 / med sscore ) * difficulty) needed to calculate the points (Dodo) and information on how many words are possible (>7 and 7). see [Point System](/tasks.md#point-system) (Dodo)
   - [ ] 3.1 make getter function for all preprocessed information (Dodo)
 
 ### User Input
@@ -67,9 +69,9 @@ WortEx/
 
 ### Point System
 
-- [ ] 1. Display how many words are possible with the given letters and how many are already found 
+- [x] 1. Display how many words are possible with the given letters and how many are already found 
 
-- [ ] 2. Display all found words (sorted by length, then alphabetically)
+- [x] 2. Display all found words
 
 - [x] 3. Display the score at all times
 
@@ -81,9 +83,9 @@ WortEx/
 
 #### Score Calculation
 
-- [ ] 1. Method to calculate Scrable Score 
+- [x] 1. Method to calculate Scrable Score 
 
-- [ ] 2. Method to calculate points 
+- [x] 2. Method to calculate points 
 
 **possible words** = number of possible words (preprossesed) (Dodo)
 
@@ -148,7 +150,7 @@ possible words >  50 = 1       #easy
 
 - [x] 2. Display the remaining time
 
-- [ ] 3. When the time is up, display the score
+- [x] 3. When the time is up, display the score
 
 ## Frontend
 
