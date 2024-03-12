@@ -107,8 +107,6 @@ def run():
     def draw_score():
         text = font.render("Score: " + str(player_score), True, WHITE)
         text_rect = text.get_rect()
-        #text_rect.center = (100, 50)
-        # left start of the text
         text_rect.left= 10
         text_rect.top = 25
         screen.blit(text, text_rect)
@@ -180,24 +178,25 @@ def run():
                 # render the word
                 screen.blit(text, text_rect)
 
+        # get score rank
         score_rank = models.is_highscore(player_score)
+        # set the new score in the database
         models.set_score(player_score)
+        offset = 350
+        score_color = WHITE
+        # if the score is not in the top 10 display game over
         if score_rank == 0:
-            text = font.render("Game Over", True, RED)
+            draw_text("Game Over", FONT_SIZE+5, RED, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - offset)
+        # if score is new highscore display new highscore
         elif score_rank == 10:
-            text = font.render("New Highscore!", True, GREEN)
+            draw_text("New Highscore!", FONT_SIZE+5, GREEN, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - offset)
+            score_color = GREEN
+        # if score is in the top 10 display the rank
         elif score_rank > 0:
-            text = font.render(f"You made it to the top {11-score_rank}!", True, GREEN)
-            
-        text_rect = text.get_rect()
-        text_rect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 100)
-        screen.blit(text, text_rect)
-
-        text = font.render("Score: " + str(player_score), True, WHITE)
-        text_rect = text.get_rect()
-        text_rect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
-        screen.blit(text, text_rect)
+            draw_text(f"You made it to the top {11-score_rank}!", FONT_SIZE+2, GREEN, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - offset)
         
+        draw_text("SCORE: " + str(player_score), FONT_SIZE+10, score_color, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2- offset + 60)   
+
 
     def init():
         # Draw the border circle
@@ -264,7 +263,7 @@ def run():
     player_word = ""
     player_score = 0
     # two minutes of playtime until the game ends
-    playtime = 30000 # this is in milliseconds 
+    playtime = 1000 # this is in milliseconds 
 
     start_time = pygame.time.get_ticks()
 
@@ -290,7 +289,16 @@ def run():
                 
                 # if the player clicks on a word in the word list
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == 1:  # Left mouse button
+                    x, y = pygame.mouse.get_pos()
+                    # if the player clicks on the play button
+                    if play_button_rect.collidepoint(x, y):
+                        # reset the game
+                        run()
+                    # if the player clicks on the menu button
+                    elif menu_button_rect.collidepoint(x, y):
+                        # go back to the main menu
+                        menu.main_menu()
+                    elif event.button == 1:  # Left mouse button
                         for i, word in enumerate(words):
                             # get the word under the cursor
                             text = smaller_font.render(word, True, WHITE)
@@ -298,11 +306,6 @@ def run():
                             if text_rect.collidepoint(event.pos):
                                 open_duden(word)
                                 break
-                    x, y = pygame.mouse.get_pos()
-                    if play_button_rect.collidepoint(x, y):
-                        run()
-                    elif menu_button_rect.collidepoint(x, y):
-                        menu.main_menu()
                     
 
                 elif event.type == pygame.MOUSEWHEEL:
@@ -319,12 +322,12 @@ def run():
             draw_score_board(screen, scroll_y)
             
             # Draw Play button
-            play_button_rect = pygame.draw.rect(screen, WHITE, (300, 550, 400, 50),border_radius=BORDER_RADIUS)
-            draw_text("Play again", FONT_SIZE, BLACK, SCREEN_WIDTH // 2, 575)
+            play_button_rect = pygame.draw.rect(screen, WHITE, (350, 620, 300, 60),border_radius=BORDER_RADIUS+5)
+            draw_text("Play again", FONT_SIZE+5, BLACK, SCREEN_WIDTH // 2, 650)
     
             # Draw Scoreboard button
-            menu_button_rect = pygame.draw.rect(screen, WHITE, (300, 650, 400, 50),border_radius=BORDER_RADIUS)
-            draw_text("Menu", FONT_SIZE, BLACK, SCREEN_WIDTH // 2, 675)
+            menu_button_rect = pygame.draw.rect(screen, WHITE, (400, 720, 200, 40),border_radius=BORDER_RADIUS)
+            draw_text("Menu", FONT_SIZE-5, BLACK, SCREEN_WIDTH // 2, 742)
 
             pygame.display.flip()
             pygame.time.Clock().tick(60)

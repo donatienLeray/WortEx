@@ -66,7 +66,7 @@ def display_scoreboard():
         y_postion= draw_scoreboard()+30
         
         # Draw buttons
-        menu_button = pygame.draw.rect(screen, WHITE, (350, y_postion, 300, 50),border_radius=BORDER_RADIUS)
+        menu_button = pygame.draw.rect(screen, WHITE, (350, y_postion, 300, 50),border_radius=BORDER_RADIUS+5)
         draw_text("Menu", FONT_SIZE, BLACK, WIDTH // 2, y_postion+25)
         
         y_postion += 60
