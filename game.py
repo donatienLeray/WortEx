@@ -1,3 +1,4 @@
+import menu
 import pygame
 import sys
 import math
@@ -33,6 +34,10 @@ def run():
     BLACK = (0, 0, 0)
     ORANGE = (255, 165, 0)
     GRAY = (128, 128, 128)
+    RED = (255, 0, 0)
+    GREEN = (0, 255, 0)
+    
+    FONT_SIZE = 36
 
     color_unfocused = WHITE
     color_focused = ORANGE
@@ -40,6 +45,7 @@ def run():
 
     WORDBOX_HEIGHT = 400
     WORDBOX_WIDTH  = 100
+    BORDER_RADIUS = 20
     
     # This is for positioning the word list at the score board
     BOX_X = SCREEN_WIDTH - WORDBOX_WIDTH - 50 
@@ -101,7 +107,10 @@ def run():
     def draw_score():
         text = font.render("Score: " + str(player_score), True, WHITE)
         text_rect = text.get_rect()
-        text_rect.center = (100, 50)
+        #text_rect.center = (100, 50)
+        # left start of the text
+        text_rect.left= 10
+        text_rect.top = 25
         screen.blit(text, text_rect)
 
     def draw_word():
@@ -115,14 +124,28 @@ def run():
         # draw the words the player has already found
         smaller_font = pygame.font.SysFont("Arial", 20)
         for i in range(len(word_found)):
-            text = smaller_font.render(word_found[i].upper(), True, WHITE)
+            text = smaller_font.render(word_found[i].upper(), True, GREEN)
             text_rect = text.get_rect()
             text_rect.center = (50, 120 + i * 20)
             screen.blit(text, text_rect)
 
     def draw_border(x, y, radius, SCREEN_WIDTH, color):
-        pygame.draw.circle(screen, color, (x, y), radius, SCREEN_WIDTH)
-
+        for i in range(10):
+            pygame.draw.circle(screen, color, (x, y), radius+i, SCREEN_WIDTH)
+            
+    def draw_outer_circle(screen,x, y, radius,percentage):
+        for i in range(10):    
+            start_angle = 90
+            end_angle = ((percentage / 100) * 360) + start_angle
+            radius += 1
+            if percentage > 50:
+                color = BLUE
+            elif int(percentage*2.55*1.5) < 255:
+                color = (255-int(percentage*2.55*1.5),0,int(percentage*2.55*1.5))
+            else:
+                color = RED
+            pygame.draw.arc(screen, color, (x - radius, y - radius, 2 * radius, 2 * radius), math.radians(start_angle), math.radians(end_angle), 2)
+    
     def draw_words_counter():
         # draw the words the player has already found
         smaller_font = pygame.font.SysFont("Arial", 20)
@@ -157,7 +180,15 @@ def run():
                 # render the word
                 screen.blit(text, text_rect)
 
-        text = font.render("Game Over", True, WHITE)
+        score_rank = models.is_highscore(player_score)
+        models.set_score(player_score)
+        if score_rank == 0:
+            text = font.render("Game Over", True, RED)
+        elif score_rank == 10:
+            text = font.render("New Highscore!", True, GREEN)
+        elif score_rank > 0:
+            text = font.render(f"You made it to the top {11-score_rank}!", True, GREEN)
+            
         text_rect = text.get_rect()
         text_rect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 100)
         screen.blit(text, text_rect)
@@ -166,11 +197,13 @@ def run():
         text_rect = text.get_rect()
         text_rect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
         screen.blit(text, text_rect)
+        
 
     def init():
         # Draw the border circle
         screen.fill(BLACK)  # fill the screen with a BLACK backgroundcolor
-        draw_border(center_x, center_y, center_radius, center_width, BLUE)
+        draw_border(center_x, center_y, center_radius, center_width, WHITE)
+        
 
         # Draw the inner circle of circles
         for i in range(6):
@@ -187,7 +220,8 @@ def run():
 
     def redraw():
         screen.fill(BLACK)
-        draw_border(center_x, center_y, center_radius, center_width, BLUE)
+        #draw_border(center_x, center_y, center_radius, center_width, BLUE)
+        draw_outer_circle(screen,center_x, center_y, center_radius,(100-(elapsed_time / playtime) * 100))
         draw_time()
         draw_score()
         draw_word()
@@ -200,6 +234,12 @@ def run():
             )
 
         circles[-1].draw(0, center_x, center_y, center_radius / 2, center_width, True)
+        
+    def draw_text(text, size, color, x, y):
+        font = pygame.font.SysFont("Arial", size)
+        text_surface = font.render(text, True, color)
+        text_rect = text_surface.get_rect(center=(x, y))
+        screen.blit(text_surface, text_rect)
 
     # Function to open Duden website with the selected word
     def open_duden(word):
@@ -224,7 +264,7 @@ def run():
     player_word = ""
     player_score = 0
     # two minutes of playtime until the game ends
-    playtime = 120000 # this is in milliseconds 
+    playtime = 30000 # this is in milliseconds 
 
     start_time = pygame.time.get_ticks()
 
@@ -239,9 +279,9 @@ def run():
         
         # This is the end screen
         if elapsed_time >= playtime or len(words) == 0:
-            models.set_score(player_score)
             draw_score_board(screen, scroll_y)
-
+            
+            
             for event in pygame.event.get():
                 # standart quit event
                 if event.type == pygame.QUIT:
@@ -258,6 +298,12 @@ def run():
                             if text_rect.collidepoint(event.pos):
                                 open_duden(word)
                                 break
+                    x, y = pygame.mouse.get_pos()
+                    if play_button_rect.collidepoint(x, y):
+                        run()
+                    elif menu_button_rect.collidepoint(x, y):
+                        menu.main_menu()
+                    
 
                 elif event.type == pygame.MOUSEWHEEL:
                     # this is to get the size of a word
@@ -271,6 +317,14 @@ def run():
                         scroll_y = min(len(words) * text.get_height() - WORDBOX_HEIGHT + text.get_height(), scroll_y + 20)
 
             draw_score_board(screen, scroll_y)
+            
+            # Draw Play button
+            play_button_rect = pygame.draw.rect(screen, WHITE, (300, 550, 400, 50),border_radius=BORDER_RADIUS)
+            draw_text("Play again", FONT_SIZE, BLACK, SCREEN_WIDTH // 2, 575)
+    
+            # Draw Scoreboard button
+            menu_button_rect = pygame.draw.rect(screen, WHITE, (300, 650, 400, 50),border_radius=BORDER_RADIUS)
+            draw_text("Menu", FONT_SIZE, BLACK, SCREEN_WIDTH // 2, 675)
 
             pygame.display.flip()
             pygame.time.Clock().tick(60)

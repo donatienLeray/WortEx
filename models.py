@@ -34,6 +34,20 @@ def get_word():
     return word, dict
 
 
+def is_highscore(score):
+    # get the top 10 scores from the database
+    cur.execute('SELECT score FROM scores ORDER BY score DESC LIMIT 10')
+    scores = cur.fetchall()
+    awnser = 0
+    if scores == None:
+        return 10
+    else :
+        for old in scores:
+            if score > old[0]:
+                awnser += 1
+        return awnser
+        
+
 # set the score in the database
 def set_score(score):
     # insert the score with timestamp into the database (score, timestamp)
@@ -60,6 +74,13 @@ def get_scores():
         
     return scores
 
+
+# reset the scores in the database
+def reset_scores():
+    cur.execute('DELETE FROM scores')
+    con.commit()
+    
+
 # set the language to the next language in the list
 def change_language():
     global language
@@ -75,11 +96,6 @@ def get_language():
     return language
 
 
-# reset the scores in the database
-def reset_scores():
-    cur.execute('DELETE FROM scores')
-    con.commit()
-
 def check_database():
     # check if the tables exist
     cur.execute('SELECT name FROM sqlite_master WHERE type="table"')
@@ -94,3 +110,4 @@ def check_database():
 # close the connection to the database
 def close():
     con.close()
+    
