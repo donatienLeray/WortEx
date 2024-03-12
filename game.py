@@ -6,6 +6,9 @@ import models
 import random
 import webbrowser
 
+difficulties = ["easy", "medium", "hard","extreme"]
+difficulty = 'easy'
+
 def run():
     # Initialize Pygame
     pygame.init()
@@ -47,8 +50,9 @@ def run():
     # set up the border radius (for buttons)
     BORDER_RADIUS = 20
     
+    times = {"easy": 120000, "medium": 60000, "hard": 30000, "extreme": 15000}
     # set up the max playtime
-    PLAYTIME = 30000 # this is in milliseconds 
+    PLAYTIME = times[difficulty] # this is in milliseconds 
 
     # Class for the circle objects
     class WortEx_Circle:
@@ -99,7 +103,7 @@ def run():
     # Function to draw the outer circle that decreases with time
     def draw_outer_circle(screen,x, y, radius,percentage):
         # make multiple circles to make it thicker
-        for i in range(10):
+        for _ in range(10):
             # satart on the top    
             start_angle = 90
             end_angle = ((percentage / 100) * 360) + start_angle
@@ -403,3 +407,7 @@ def run():
                         if rect.collidepoint(x,y):
                             open_duden(word)
                             break
+
+def change_difficulty():
+    global difficulty
+    difficulty = difficulties[(difficulties.index(difficulty) + 1) % len(difficulties)]
