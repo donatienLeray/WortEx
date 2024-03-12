@@ -20,10 +20,6 @@ GREEN = (0, 255, 0)
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Scoreboard")
 
-# Example scores list
-# scores = [(100, datetime.datetime.now()), (75, datetime.datetime.now())]
-# for i in range(8):
-#     scores.append((50, datetime.datetime.now()))
 
 # Function to draw the scoreboard
 def draw_scoreboard():
@@ -35,7 +31,8 @@ def draw_scoreboard():
     # Draw each score entryfont
     y_position = 100
     scores = models.get_scores()
-    for i , (score, timestamp) in enumerate(scores):
+    i = 0
+    for (score, timestamp) in scores:
         score_text = f"{score}"
         timestamp_text = f"Time: {timestamp}"
 
@@ -44,6 +41,7 @@ def draw_scoreboard():
         draw_text(timestamp_text, FONT_SIZE-20, BLACK, WIDTH // 2, y_position + 36)
 
         y_position += 50
+        i += 1
 
     #pygame.display.flip()
     return y_position

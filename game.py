@@ -27,12 +27,13 @@ def run():
     inner_circle_radius = 60
 
     scroll_y = 0
+    word_rects = []
 
     # Set up colors
     WHITE = (255, 255, 255)
     BLUE = (0, 0, 255)
     BLACK = (0, 0, 0)
-    ORANGE = (255, 165, 0)
+    YELLOW = (255, 220, 0)
     GRAY = (128, 128, 128)
     RED = (255, 0, 0)
     GREEN = (0, 255, 0)
@@ -40,7 +41,7 @@ def run():
     FONT_SIZE = 36
 
     color_unfocused = WHITE
-    color_focused = ORANGE
+    color_focused = YELLOW
     HIGHLIGHT_COLOR = GRAY 
 
     WORDBOX_HEIGHT = 400
@@ -117,16 +118,16 @@ def run():
         # draw the word the player is currently typing
         text = font.render(player_word.upper(), True, WHITE)
         text_rect = text.get_rect()
-        text_rect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT - 150)
+        text_rect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT - 100)
         screen.blit(text, text_rect)
 
     def draw_found_words():
         # draw the words the player has already found
-        smaller_font = pygame.font.SysFont("Arial", 20)
+        smaller_font = pygame.font.SysFont("Arial", 22)
         for i in range(len(word_found)):
             text = smaller_font.render(word_found[i].upper(), True, GREEN)
             text_rect = text.get_rect()
-            text_rect.center = (50, 120 + i * 20)
+            text_rect.center = (50, 120 + i * 22)
             screen.blit(text, text_rect)
 
     def draw_border(x, y, radius, SCREEN_WIDTH, color):
@@ -148,58 +149,81 @@ def run():
     
     def draw_words_counter():
         # draw the words the player has already found
-        smaller_font = pygame.font.SysFont("Arial", 20)
+        smaller_font = pygame.font.SysFont("Arial", 22)
         words_found = len(word_found)
         text = smaller_font.render("Words found: " + str(words_found) + "/" + max_words , True, WHITE)
         text_rect = text.get_rect()
         text_rect.center = (int(SCREEN_WIDTH / 2),  50)
         screen.blit(text, text_rect)
 
-    def draw_score_board(screen, scroll_y):
+    def draw_score_board(screen):
         screen.fill(BLACK)
-        
-        # Top left corner is the list of words the player has found
-        smaller_font = pygame.font.SysFont("Arial", 20)
-
-
-        # Draws a rectangle around the word list
-        answer_box = pygame.draw.rect(screen, WHITE, (BOX_X, BOX_Y, WORDBOX_WIDTH, WORDBOX_HEIGHT), 2)
-        
-        # render words in the rectangle
-        for i, word in enumerate(words):
-            text = smaller_font.render(word, True, WHITE)
-            text_rect = text.get_rect(topleft=(BOX_X + 10, BOX_Y + 10 + i * text.get_height() - scroll_y))
-
-            # if the word is in the visible area
-            if answer_box.y <= text_rect.y < WORDBOX_HEIGHT + answer_box.y - text.get_height():
-
-                # if the mouse is over the word it should be highlighted
-                if text_rect.collidepoint(pygame.mouse.get_pos()):
-                    pygame.draw.rect(screen, HIGHLIGHT_COLOR, text_rect)
-                
-                # render the word
-                screen.blit(text, text_rect)
-
         # get score rank
         score_rank = models.is_highscore(player_score)
         # set the new score in the database
         models.set_score(player_score)
         offset = 350
         score_color = WHITE
-        # if the score is not in the top 10 display game over
-        if score_rank == 0:
-            draw_text("Game Over", FONT_SIZE+5, RED, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - offset)
-        # if score is new highscore display new highscore
-        elif score_rank == 10:
-            draw_text("New Highscore!", FONT_SIZE+5, GREEN, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - offset)
+        
+        if score_rank < 2:
+            draw_text("New Highscore!", FONT_SIZE+10, GREEN, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - offset)
             score_color = GREEN
         # if score is in the top 10 display the rank
-        elif score_rank > 0:
-            draw_text(f"You made it to the top {11-score_rank}!", FONT_SIZE+2, GREEN, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - offset)
+        elif score_rank < 11:
+            draw_text(f"You made it to the top {score_rank}!", FONT_SIZE+5, GREEN, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - offset)
+        # if the score is not in the top 10 display game over
+        else:
+            draw_text("Game Over", FONT_SIZE+10, RED, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - offset)
+        # if score is new highscore display new highscore
+    
         
-        draw_text("SCORE: " + str(player_score), FONT_SIZE+10, score_color, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2- offset + 60)   
+        draw_text("SCORE: " + str(player_score), FONT_SIZE+15, score_color, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2- offset + 70)   
+
+    def draw_possible_awnsers():
+        num = len(all_words)//8*12
+        y_offset = 350-num
+        for i, word in enumerate(all_words):
+            x = i%8
+            if x == 0:
+                y_offset += 24
+            if word in word_found:
+                color = GREEN
+            else:
+                color = WHITE
+            font = pygame.font.SysFont("Arial", 24)
+            text_surface = font.render(word, True, color)
+            text_rect = text_surface.get_rect(center=(150+x*100, y_offset))
+            screen.blit(text_surface, text_rect)
+            word_rects.append((word,text_rect))
+            
+        
+
+    
+    # def draw_scroll_box(screen, scroll_y):
+        
+    #     # Top left corner is the list of words the player has found
+    #     smaller_font = pygame.font.SysFont("Arial", 20)
 
 
+    #     # Draws a rectangle around the word list
+    #     answer_box = pygame.draw.rect(screen, WHITE, (BOX_X, BOX_Y, WORDBOX_WIDTH, WORDBOX_HEIGHT), 2)
+        
+    #     # render words in the rectangle
+    #     for i, word in enumerate(words):
+    #         text = smaller_font.render(word, True, WHITE)
+    #         text_rect = text.get_rect(topleft=(BOX_X + 10, BOX_Y + 10 + i * text.get_height() - scroll_y))
+
+    #         # if the word is in the visible area
+    #         if answer_box.y <= text_rect.y < WORDBOX_HEIGHT + answer_box.y - text.get_height():
+
+    #             # if the mouse is over the word it should be highlighted
+    #             if text_rect.collidepoint(pygame.mouse.get_pos()):
+    #                 pygame.draw.rect(screen, HIGHLIGHT_COLOR, text_rect)
+                
+    #             # render the word
+    #             screen.blit(text, text_rect)
+                
+                
     def init():
         # Draw the border circle
         screen.fill(BLACK)  # fill the screen with a BLACK backgroundcolor
@@ -244,13 +268,19 @@ def run():
 
     # Function to open Duden website with the selected word
     def open_duden(word):
-        url = f"https://www.duden.de/suchen/dudenonline/{word}"
+        url =""
+        language = models.get_language()
+        if language == "german":
+            url = f"https://www.duden.de/suchen/dudenonline/{word}"
+        elif language == "english":
+            url = f"https://www.oed.com/search/dictionary/?scope=Entries&q={word}"
         webbrowser.open(url)
 
     # get a random word and shuffle the letters
     the_word, answer = models.get_word()
 
     words = list(answer.keys())
+    all_words = words.copy()
 
     # get the chars of the word and shuffle them to display them in circle randomly
     chars = list(the_word)
@@ -270,6 +300,9 @@ def run():
     start_time = pygame.time.get_ticks()
 
     typed_counter = 0
+    
+    # was the score board already drawn
+    scoreboard = False
 
     # Here we do the start menu
 
@@ -280,7 +313,9 @@ def run():
         
         # This is the end screen
         if elapsed_time >= PLAYTIME or len(words) == 0:
-            draw_score_board(screen, scroll_y)
+            if not scoreboard:
+                draw_score_board(screen)
+                scoreboard = True
             
             
             for event in pygame.event.get():
@@ -300,14 +335,17 @@ def run():
                     elif menu_button_rect.collidepoint(x, y):
                         # go back to the main menu
                         menu.main_menu()
-                    elif event.button == 1:  # Left mouse button
-                        for i, word in enumerate(words):
-                            # get the word under the cursor
-                            text = smaller_font.render(word, True, WHITE)
-                            text_rect = text.get_rect(topleft=(BOX_X + 10, BOX_Y + 10 + i * text.get_height() - scroll_y))
-                            if text_rect.collidepoint(event.pos):
-                                open_duden(word)
-                                break
+                    # elif event.button == 1:  # Left mouse button
+                    #     for word, rect in word_rects:
+                    #         if rect.collidepoint(event.pos):
+                    #             open_duden(word)
+                        # for i, word in enumerate(words):
+                        #     # get the word under the cursor
+                        #     text = smaller_font.render(word, True, WHITE)
+                        #     text_rect = text.get_rect(topleft=(BOX_X + 10, BOX_Y + 10 + i * text.get_height() - scroll_y))
+                        #     if text_rect.collidepoint(event.pos):
+                        #         open_duden(word)
+                        #         break
                     
 
                 elif event.type == pygame.MOUSEWHEEL:
@@ -321,10 +359,10 @@ def run():
                         # scroll down if the scroll_y is not at the bottom
                         scroll_y = min(len(words) * text.get_height() - WORDBOX_HEIGHT + text.get_height(), scroll_y + 20)
 
-            draw_score_board(screen, scroll_y)
+            draw_possible_awnsers()
             
             # Draw Play button
-            play_button_rect = pygame.draw.rect(screen, WHITE, (350, 620, 300, 60),border_radius=BORDER_RADIUS+5)
+            play_button_rect = pygame.draw.rect(screen, GREEN, (350, 620, 300, 60),border_radius=BORDER_RADIUS+5)
             draw_text("Play again", FONT_SIZE+5, BLACK, SCREEN_WIDTH // 2, 650)
     
             # Draw Scoreboard button
@@ -387,7 +425,6 @@ def run():
                                 player_word += chars[i]
                                 circles[i].set_focus(True)
 
-
                         # if the player_word is found in the words array
                         if player_word in words:
                             # remove the word from the words array
@@ -399,7 +436,10 @@ def run():
 
                             # since the word has stored it's points in the answer 
                             # dictionary we can just add them to the player_score
-                            player_score += answer[player_word] 
+                            player_score += answer[player_word]
+                            
+                            if len(player_word) == 7:
+                                PLAYTIME += 10000
 
                             # reset the player_word
                             player_word = ""
@@ -407,7 +447,20 @@ def run():
                             # unfocus all the circles
                             for i in range(len(circles)):
                                 circles[i].set_focus(False)
-
+                        
+                        # easter egg
+                        easteregg = ['dodo','artur','wortex']
+                        if player_word in easteregg:
+                            tmp = BLUE
+                            BLUE = GREEN
+                            GREEN = tmp
+                            PLAYTIME += 3300 * len(easteregg) 
+                            player_score += 10 + 10 * len(easteregg)
+                            player_word = ""
+                            for i in range(len(circles)):
+                                circles[i].set_focus(False)
+                            easteregg.remove(player_word)
+                            
                         redraw()
 
                     typed_counter = 0

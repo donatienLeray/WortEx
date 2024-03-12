@@ -38,13 +38,14 @@ def is_highscore(score):
     # get the top 10 scores from the database
     cur.execute('SELECT score FROM scores ORDER BY score DESC LIMIT 10')
     scores = cur.fetchall()
-    awnser = 0
+    awnser = 11
     if scores == None:
-        return 10
+        return awnser
     else :
+        awnser = len(scores)+1
         for old in scores:
             if score > old[0]:
-                awnser += 1
+                awnser -= 1
         return awnser
         
 
@@ -111,4 +112,6 @@ def check_database():
 # close the connection to the database
 def close():
     con.close()
+    
+print(is_highscore(10))
     
