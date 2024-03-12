@@ -102,11 +102,12 @@ def check_database():
     tables = cur.fetchall()
     for language in languages:
         if (language,) not in tables:
-            print (f'Table {language} does not exist')
-            return False
+            raise FileNotFoundError(f'Table {language} not found in the database')
+    if 'scores' not in tables:
+        raise FileNotFoundError('Table scores not found in the database')
     else:
-        return 'score' in tables
- 
+        return True
+        
 # close the connection to the database
 def close():
     con.close()

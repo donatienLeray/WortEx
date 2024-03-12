@@ -1,3 +1,7 @@
+
+# this file is the sarting animation for the game
+#after its done it will load the main menu
+
 import time
 import pygame
 import sys

@@ -50,6 +50,8 @@ def run():
     # This is for positioning the word list at the score board
     BOX_X = SCREEN_WIDTH - WORDBOX_WIDTH - 50 
     BOX_Y = 100
+    
+    PLAYTIME = 30000 # this is in milliseconds 
 
     # Class for the circle objects
     class WortEx_Circle:
@@ -99,7 +101,7 @@ def run():
 
     def draw_time():
         # render the time in seconds
-        text = font.render("Time: " + str((playtime - elapsed_time) // 1000), True, WHITE)
+        text = font.render("Time: " + str((PLAYTIME - elapsed_time) // 1000), True, WHITE)
         text_rect = text.get_rect()
         text_rect.center = (SCREEN_WIDTH - 120, 50)
         screen.blit(text, text_rect)
@@ -220,7 +222,7 @@ def run():
     def redraw():
         screen.fill(BLACK)
         #draw_border(center_x, center_y, center_radius, center_width, BLUE)
-        draw_outer_circle(screen,center_x, center_y, center_radius,(100-(elapsed_time / playtime) * 100))
+        draw_outer_circle(screen,center_x, center_y, center_radius,(100-(elapsed_time / PLAYTIME) * 100))
         draw_time()
         draw_score()
         draw_word()
@@ -263,7 +265,7 @@ def run():
     player_word = ""
     player_score = 0
     # two minutes of playtime until the game ends
-    playtime = 1000 # this is in milliseconds 
+
 
     start_time = pygame.time.get_ticks()
 
@@ -277,7 +279,7 @@ def run():
         elapsed_time = pygame.time.get_ticks() - start_time
         
         # This is the end screen
-        if elapsed_time >= playtime or len(words) == 0:
+        if elapsed_time >= PLAYTIME or len(words) == 0:
             draw_score_board(screen, scroll_y)
             
             
