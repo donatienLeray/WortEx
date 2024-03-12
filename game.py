@@ -15,18 +15,17 @@ def run():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("WortEx")
 
+    # Set up font
     font = pygame.font.SysFont("Arial", 50)
-    smaller_font = pygame.font.SysFont("Arial", 20)
 
     # set up the center circle
     center_x = SCREEN_WIDTH // 2
     center_y = SCREEN_HEIGHT // 2
     center_radius = 200
     center_width = 5
-
+    # set up the inner circle
     inner_circle_radius = 60
-
-    scroll_y = 0
+    # set up for showing all possible words (used for the scoreboard)
     word_rects = []
 
     # Set up colors
@@ -38,20 +37,17 @@ def run():
     RED = (255, 0, 0)
     GREEN = (0, 255, 0)
     
+    # set up the colors for the inner circles
+    COLOR_UNFOCUSED = WHITE
+    COLOR_FOCUSED = YELLOW
+    
+    # set up the font size
     FONT_SIZE = 36
 
-    color_unfocused = WHITE
-    color_focused = YELLOW
-    HIGHLIGHT_COLOR = GRAY 
-
-    WORDBOX_HEIGHT = 400
-    WORDBOX_WIDTH  = 100
+    # set up the border radius (for buttons)
     BORDER_RADIUS = 20
     
-    # This is for positioning the word list at the score board
-    BOX_X = SCREEN_WIDTH - WORDBOX_WIDTH - 50 
-    BOX_Y = 100
-    
+    # set up the max playtime
     PLAYTIME = 30000 # this is in milliseconds 
 
     # Class for the circle objects
@@ -87,12 +83,12 @@ def run():
             # Draws the circle and places the letter in the center
             if self.focus:
                 pygame.draw.circle(
-                    screen, color_focused, (x, y), inner_circle_radius, SCREEN_WIDTH
+                    screen, COLOR_FOCUSED, (x, y), inner_circle_radius, SCREEN_WIDTH
                 )
 
             else:
                 pygame.draw.circle(
-                    screen, color_unfocused, (x, y), inner_circle_radius, SCREEN_WIDTH
+                    screen, COLOR_UNFOCUSED, (x, y), inner_circle_radius, SCREEN_WIDTH
                 )
 
             text = font.render(self.letter, True, WHITE)
@@ -100,62 +96,25 @@ def run():
             text_rect.center = (x, y)
             screen.blit(text, text_rect)
 
-    def draw_time():
-        # render the time in seconds
-        text = font.render("Time: " + str((PLAYTIME - elapsed_time) // 1000), True, WHITE)
-        text_rect = text.get_rect()
-        text_rect.center = (SCREEN_WIDTH - 120, 50)
-        screen.blit(text, text_rect)
-
-    def draw_score():
-        text = font.render("Score: " + str(player_score), True, WHITE)
-        text_rect = text.get_rect()
-        text_rect.left= 10
-        text_rect.top = 25
-        screen.blit(text, text_rect)
-
-    def draw_word():
-        # draw the word the player is currently typing
-        text = font.render(player_word.upper(), True, WHITE)
-        text_rect = text.get_rect()
-        text_rect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT - 100)
-        screen.blit(text, text_rect)
-
-    def draw_found_words():
-        # draw the words the player has already found
-        smaller_font = pygame.font.SysFont("Arial", 22)
-        for i in range(len(word_found)):
-            text = smaller_font.render(word_found[i].upper(), True, GREEN)
-            text_rect = text.get_rect()
-            text_rect.center = (50, 120 + i * 22)
-            screen.blit(text, text_rect)
-
-    def draw_border(x, y, radius, SCREEN_WIDTH, color):
-        for i in range(10):
-            pygame.draw.circle(screen, color, (x, y), radius+i, SCREEN_WIDTH)
-            
+    # Function to draw the outer circle that decreases with time
     def draw_outer_circle(screen,x, y, radius,percentage):
-        for i in range(10):    
+        # make multiple circles to make it thicker
+        for i in range(10):
+            # satart on the top    
             start_angle = 90
             end_angle = ((percentage / 100) * 360) + start_angle
             radius += 1
+            # after half of the time the color gets gradually more red
             if percentage > 50:
                 color = BLUE
             elif int(percentage*2.55*1.5) < 255:
                 color = (255-int(percentage*2.55*1.5),0,int(percentage*2.55*1.5))
             else:
                 color = RED
+            # draw the arc
             pygame.draw.arc(screen, color, (x - radius, y - radius, 2 * radius, 2 * radius), math.radians(start_angle), math.radians(end_angle), 2)
     
-    def draw_words_counter():
-        # draw the words the player has already found
-        smaller_font = pygame.font.SysFont("Arial", 22)
-        words_found = len(word_found)
-        text = smaller_font.render("Words found: " + str(words_found) + "/" + max_words , True, WHITE)
-        text_rect = text.get_rect()
-        text_rect.center = (int(SCREEN_WIDTH / 2),  50)
-        screen.blit(text, text_rect)
-
+    # Function to draw the score board om the end screen
     def draw_score_board(screen):
         screen.fill(BLACK)
         # get score rank
@@ -165,6 +124,7 @@ def run():
         offset = 350
         score_color = WHITE
         
+        # if score is new highscore display new highscore
         if score_rank < 2:
             draw_text("New Highscore!", FONT_SIZE+10, GREEN, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - offset)
             score_color = GREEN
@@ -174,62 +134,39 @@ def run():
         # if the score is not in the top 10 display game over
         else:
             draw_text("Game Over", FONT_SIZE+10, RED, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - offset)
-        # if score is new highscore display new highscore
-    
         
+        # draw the score
         draw_text("SCORE: " + str(player_score), FONT_SIZE+15, score_color, SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2- offset + 70)   
 
+    # Function to draw the possible awnsers on the end screen
     def draw_possible_awnsers():
+        # calculate y offset depending on the number of words
         num = len(all_words)//8*12
         y_offset = 350-num
+        # write words in 8 columns
         for i, word in enumerate(all_words):
             x = i%8
+            # start a new row
             if x == 0:
                 y_offset += 24
+            # set the color of the word depending on if it was found or not
             if word in word_found:
                 color = GREEN
             else:
                 color = WHITE
+            # draw the word (draw_text cant be used here because we need the rect for the click event)    
             font = pygame.font.SysFont("Arial", 24)
             text_surface = font.render(word, True, color)
             text_rect = text_surface.get_rect(center=(150+x*100, y_offset))
             screen.blit(text_surface, text_rect)
+            # append the word and the rect to the word_rects list (used for the click event)
             word_rects.append((word,text_rect))
-            
-        
-
-    
-    # def draw_scroll_box(screen, scroll_y):
-        
-    #     # Top left corner is the list of words the player has found
-    #     smaller_font = pygame.font.SysFont("Arial", 20)
-
-
-    #     # Draws a rectangle around the word list
-    #     answer_box = pygame.draw.rect(screen, WHITE, (BOX_X, BOX_Y, WORDBOX_WIDTH, WORDBOX_HEIGHT), 2)
-        
-    #     # render words in the rectangle
-    #     for i, word in enumerate(words):
-    #         text = smaller_font.render(word, True, WHITE)
-    #         text_rect = text.get_rect(topleft=(BOX_X + 10, BOX_Y + 10 + i * text.get_height() - scroll_y))
-
-    #         # if the word is in the visible area
-    #         if answer_box.y <= text_rect.y < WORDBOX_HEIGHT + answer_box.y - text.get_height():
-
-    #             # if the mouse is over the word it should be highlighted
-    #             if text_rect.collidepoint(pygame.mouse.get_pos()):
-    #                 pygame.draw.rect(screen, HIGHLIGHT_COLOR, text_rect)
                 
-    #             # render the word
-    #             screen.blit(text, text_rect)
-                
-                
+    # initailize the circles        
     def init():
         # Draw the border circle
         screen.fill(BLACK)  # fill the screen with a BLACK backgroundcolor
-        draw_border(center_x, center_y, center_radius, center_width, WHITE)
         
-
         # Draw the inner circle of circles
         for i in range(6):
             angle = i * 360 / 6
@@ -242,24 +179,32 @@ def run():
         circles.append(c)
         c.draw(0, center_x, center_y, center_radius / 2, center_width, True)
 
-
+    # Function to redraw the hole screen (during game)
     def redraw():
         screen.fill(BLACK)
-        #draw_border(center_x, center_y, center_radius, center_width, BLUE)
+        # draw the outer circle (gets smaller with time)
         draw_outer_circle(screen,center_x, center_y, center_radius,(100-(elapsed_time / PLAYTIME) * 100))
-        draw_time()
-        draw_score()
-        draw_word()
-        draw_found_words()
-        draw_words_counter()
+        # draw the left play time
+        draw_text("Time: " + str((PLAYTIME - elapsed_time) // 1000), FONT_SIZE+14, WHITE, SCREEN_WIDTH - 160, 50)
+        # draw score
+        draw_text("Score: " + str(player_score), FONT_SIZE+14, WHITE, 160, 50)
+        # draw the word the player is currently typing
+        draw_text(player_word.upper(), FONT_SIZE+14, WHITE, SCREEN_WIDTH // 2, SCREEN_HEIGHT - 100)
+        # draw words the player has already found
+        for i in range(len(word_found)):
+            draw_text(word_found[i].upper(), 24, GREEN, 100, 120+i*26)
+        # draw how many words the player has already found
+        draw_text("Words found: " + str(len(word_found)) + "/" + max_words , 22, WHITE, SCREEN_WIDTH // 2, 50)
 
+        # redraw the inner circles
         for i in range(6):
-            circles[i].draw(
-                i * 360 / 6, center_x, center_y, center_radius / 1.5, center_width, False
-            )
+            circles[i].draw(i * 360 / 6, center_x, center_y, center_radius / 1.5, center_width, False)
 
+        # redraw the outer circle
         circles[-1].draw(0, center_x, center_y, center_radius / 2, center_width, True)
-        
+    
+    
+    # Function to draw text 
     def draw_text(text, size, color, x, y):
         font = pygame.font.SysFont("Arial", size)
         text_surface = font.render(text, True, color)
@@ -292,86 +237,30 @@ def run():
 
     circles = []  # this is for keeping track if the circles are focused or not
 
+    # set the player_word and player_score to 0 at the start of the game
     player_word = ""
     player_score = 0
-    # two minutes of playtime until the game ends
 
-
+    # get the game start time
     start_time = pygame.time.get_ticks()
-
+    # counter to make sure the player can only type one letter at a time
     typed_counter = 0
-    
     # was the score board already drawn
     scoreboard = False
 
-    # Here we do the start menu
-
-    init()  # drawing the circles for the first time
-    # Main game loop
+    # drawing the circles for the first time
+    init() 
+     
+    # GAME LOOP
     while True:
+        
+        # get hiw mich playtime has already passed
         elapsed_time = pygame.time.get_ticks() - start_time
         
-        # This is the end screen
+        # if the playtime is over or the player has found all words
         if elapsed_time >= PLAYTIME or len(words) == 0:
-            if not scoreboard:
-                draw_score_board(screen)
-                scoreboard = True
-            
-            
-            for event in pygame.event.get():
-                # standart quit event
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                
-                # if the player clicks on a word in the word list
-                elif event.type == pygame.MOUSEBUTTONDOWN:
-                    x, y = pygame.mouse.get_pos()
-                    # if the player clicks on the play button
-                    if play_button_rect.collidepoint(x, y):
-                        # reset the game
-                        run()
-                    # if the player clicks on the menu button
-                    elif menu_button_rect.collidepoint(x, y):
-                        # go back to the main menu
-                        menu.main_menu()
-                    # elif event.button == 1:  # Left mouse button
-                    #     for word, rect in word_rects:
-                    #         if rect.collidepoint(event.pos):
-                    #             open_duden(word)
-                        # for i, word in enumerate(words):
-                        #     # get the word under the cursor
-                        #     text = smaller_font.render(word, True, WHITE)
-                        #     text_rect = text.get_rect(topleft=(BOX_X + 10, BOX_Y + 10 + i * text.get_height() - scroll_y))
-                        #     if text_rect.collidepoint(event.pos):
-                        #         open_duden(word)
-                        #         break
-                    
-
-                elif event.type == pygame.MOUSEWHEEL:
-                    # this is to get the size of a word
-                    text = smaller_font.render("Test", True, WHITE)
-
-                    if event.y > 0:
-                        # scroll up if the scroll_y is not at the top
-                        scroll_y = max(0, scroll_y - 20)
-                    else:
-                        # scroll down if the scroll_y is not at the bottom
-                        scroll_y = min(len(words) * text.get_height() - WORDBOX_HEIGHT + text.get_height(), scroll_y + 20)
-
-            draw_possible_awnsers()
-            
-            # Draw Play button
-            play_button_rect = pygame.draw.rect(screen, GREEN, (350, 620, 300, 60),border_radius=BORDER_RADIUS+5)
-            draw_text("Play again", FONT_SIZE+5, BLACK, SCREEN_WIDTH // 2, 650)
-    
-            # Draw Scoreboard button
-            menu_button_rect = pygame.draw.rect(screen, WHITE, (400, 720, 200, 40),border_radius=BORDER_RADIUS)
-            draw_text("Menu", FONT_SIZE-5, BLACK, SCREEN_WIDTH // 2, 742)
-
-            pygame.display.flip()
-            pygame.time.Clock().tick(60)
-
+            # ENTER THE ENDSCREEN
+            break
         else:
             redraw()
 
@@ -454,13 +343,11 @@ def run():
                             tmp = BLUE
                             BLUE = GREEN
                             GREEN = tmp
-                            PLAYTIME += 3300 * len(easteregg) 
-                            player_score += 10 + 10 * len(easteregg)
+                            PLAYTIME += 10000
+                            player_score += 42
                             player_word = ""
                             for i in range(len(circles)):
                                 circles[i].set_focus(False)
-                            easteregg.remove(player_word)
-                            
                         redraw()
 
                     typed_counter = 0
@@ -468,3 +355,51 @@ def run():
             # Update the display
             pygame.display.flip()
             pygame.time.Clock().tick(60)
+            
+            
+    # ENDSCREEN
+    
+    # draw the scoreboad       
+    draw_score_board(screen)
+    # draw the possible awnsers          
+    draw_possible_awnsers()
+            
+    # Draw Play again button
+    play_button_rect = pygame.draw.rect(screen, GREEN, (350, 620, 300, 60),border_radius=BORDER_RADIUS+5)
+    draw_text("Play again", FONT_SIZE+5, BLACK, SCREEN_WIDTH // 2, 650)
+
+    # Draw Menu button
+    menu_button_rect = pygame.draw.rect(screen, WHITE, (400, 720, 200, 40),border_radius=BORDER_RADIUS)
+    draw_text("Menu", FONT_SIZE-5, BLACK, SCREEN_WIDTH // 2, 742)
+    
+    # Update the display           
+    pygame.display.flip()
+    pygame.time.Clock().tick(60)
+    
+    # ENDSCREEN LOOP
+    # only checks for click events since everithing is static
+    while True: 
+        
+        # check for click events      
+        for event in pygame.event.get():
+            # standart quit event
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+                
+            # if the player clicks on a word in the word list
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                x, y = pygame.mouse.get_pos()
+                # if the player clicks on the play button
+                if play_button_rect.collidepoint(x, y):
+                    # reset the game
+                    run()
+                # if the player clicks on the menu button
+                elif menu_button_rect.collidepoint(x, y):
+                    # go back to the main menu
+                    menu.main_menu()
+                elif event.button == 1:  # Left mouse button
+                    for word, rect in word_rects:
+                        if rect.collidepoint(x,y):
+                            open_duden(word)
+                            break
