@@ -301,7 +301,7 @@ def run():
                 # if a key is pressed
                 if event.type == pygame.KEYDOWN:
                     # if escape is pressed the game unfocuses all circles
-                    if event.key == pygame.K_ESCAPE:
+                    if event.key == pygame.K_ESCAPE or event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
                         for i in range(len(circles)):
                             circles[i].set_focus(False)
                         player_word = ""
