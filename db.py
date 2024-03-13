@@ -41,7 +41,7 @@ def _valid_in_language(language,word):
 
 
 # create table from data and sanitize it
-def _init_word_freq_table(language,file_path):
+def init_word_freq_table(language,file_path,check):
     table_name = language + '_words'
     # Define a regular expression pattern for German letters
     not_a_word,not_german,already_exists,count,check = 0,0,0,0,0
@@ -53,7 +53,8 @@ def _init_word_freq_table(language,file_path):
     # file hase two tokens per line word and frequency seperated by space
     
     # initalise tables for double check
-    _init_double_check(language)
+    if check:
+        _init_double_check(language)
     
     
     with open(file_path, 'r', encoding='latin-1') as file:
@@ -88,8 +89,11 @@ def _init_word_freq_table(language,file_path):
                 not_german += 1
                 continue
             
+            # make word lowercase
+            word = word.lower()
+            
             # check if word exist in other dataset and is not a name
-            if not _double_check(word):
+            if check and not _double_check(word):
                 #print(f"Word '{word}' is a duplicate. It will be skipped.")
                 check += 1
                 continue
@@ -130,8 +134,9 @@ def _init_word_freq_table(language,file_path):
     
     global MAX_FREQ 
     MAX_FREQ = cur.execute(f'''SELECT MAX(frequency) FROM {table_name}''').fetchone()[0]
-    #delete double check tables
-    _delete_double_check()
+    if check:
+        #delete double check tables
+        _delete_double_check()
     # insert easter egg words
     _insert_easter_egg(table_name)
     
@@ -395,7 +400,7 @@ def _init_scores_table():
     con.commit()
     
 def _make_new_language(language,url):
-    _init_word_freq_table(language,url)
+    init_word_freq_table(language,url)
     _init_seven_letter_words(language,language+'_words')
     _update_seven_letter_words(language,language+'_words')
     _init_scores_table()
@@ -404,13 +409,11 @@ def _make_new_language(language,url):
 # main
 def main():
     print("Creating tables and filling them with data...")
-    # german_freq = os.path.join('data', 'german.txt') #data from https://github.com/gambolputty/dewiki-wordrank
-    # _make_new_language('german',german_freq)
-    # english_freq = os.path.join('data', 'english.txt') #data from
-    # _make_new_language('english',english_freq)
+    # language_freq = os.path.join('data', 'language.txt')
+    # init_word_freq_table('language',language_freq,True)
     print("========Done========")
     
-
+    
 if __name__ == '__main__':
     main() 
 

@@ -1,7 +1,12 @@
+'''
+This file handels the database connection and the database queries.
+'''
+
 from datetime import datetime
 import sqlite3
 import os
 
+# set the language
 languages = ['german', 'english']
 language = languages[0]
 

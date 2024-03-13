@@ -85,6 +85,7 @@ def main_menu():
         pygame.time.Clock().tick(FPS)
         
 def get_flag(language):
+    # language flag dictionary
     dict = {'english': '🇬🇧', 'german': '🇩🇪'}
     flag_size = (50, 50)
     return load_emoji(dict[language], flag_size)
