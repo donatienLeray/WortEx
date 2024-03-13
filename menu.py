@@ -25,10 +25,16 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("WortEx Menu")
 
 # Load the background image
-path = os.path.join('data', 'background.jpg')
-background_image = pygame.image.load(path)
+back_path = os.path.join('data', 'background.jpg')
+background_image = pygame.image.load(back_path)
 # Resize the background image to fit the screen
 background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
+
+# Load the logo image
+logo_path = os.path.join('data', 'logo.webp')
+logo_image = pygame.image.load(logo_path)  # Replace with the path to your logo image
+logo_image = pygame.transform.scale(logo_image, (600, 80))  # Adjust the size as needed
+
 
 # darw text on the screen
 def draw_text(text, size, color, x, y):
@@ -65,7 +71,9 @@ def main_menu():
                     game.change_difficulty()
                     
         # Draw title
-        draw_text("WortEx",FONT_SIZE + 70, WHITE, WIDTH // 2, 120)
+        #draw_text("WortEx",FONT_SIZE + 70, WHITE, WIDTH // 2, 120)
+        # Draw the logo image above the background
+        screen.blit(logo_image, (WIDTH//2-300, 120)) 
 
         # Draw Play button
         play_button_rect = pygame.draw.rect(screen, GREEN, (350, 290, 300, 70),border_radius=BORDER_RADIUS+5)
