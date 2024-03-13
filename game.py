@@ -122,9 +122,9 @@ def run():
     def draw_score_board(screen):
         screen.fill(BLACK)
         # get score rank
-        score_rank = models.is_highscore(player_score)
+        score_rank = models.is_highscore(player_score,difficulty)
         # set the new score in the database
-        models.set_score(player_score)
+        models.set_score(player_score,difficulty)
         offset = 350
         score_color = WHITE
         
@@ -230,7 +230,6 @@ def run():
 
     words = list(answer.keys())
     all_words = words.copy()
-
     # get the chars of the word and shuffle them to display them in circle randomly
     chars = list(the_word)
     random.shuffle(chars)

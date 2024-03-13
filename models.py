@@ -34,9 +34,9 @@ def get_word():
     return word, dict
 
 
-def is_highscore(score):
+def is_highscore(score,difficulty):
     # get the top 10 scores from the database
-    cur.execute('SELECT score FROM scores ORDER BY score DESC LIMIT 10')
+    cur.execute('SELECT score FROM scores WHERE difficulty = ? ORDER BY score DESC LIMIT 10', (difficulty,))
     scores = cur.fetchall()
     awnser = 11
     if scores == None:
@@ -50,35 +50,39 @@ def is_highscore(score):
         
 
 # set the score in the database
-def set_score(score):
+def set_score(score,difficulty):
     # insert the score with timestamp into the database (score, timestamp)
     current_timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    cur.execute('INSERT INTO scores (score, timestamp) VALUES (?, ?)', (score, current_timestamp))
+    cur.execute('INSERT INTO scores (score, timestamp, language, difficulty) VALUES (?, ?, ?, ?)', (score, current_timestamp, language, difficulty))
     # commit the changes
     con.commit()
 
 
 # get the top 10 scores from the database    
-def get_scores():
-    # get the top 10 scores from the database
-    cur.execute('SELECT * FROM scores ORDER BY score DESC LIMIT 10')
+def get_scores(difficulty):
+    # get the top 10 scores from the database with difficulty = difficulty
+    cur.execute('SELECT * FROM scores WHERE difficulty = ? ORDER BY score DESC LIMIT 10', (difficulty,))
     
     scores=[]
     for row in cur.fetchall():
-        scores.append((row[0], row[1]))
+        scores.append((row[0], row[1], row[2], row[3]))
      
     # if there are more than 10 scores in the database, delete the lowest scores   
-    cur.execute('SELECT COUNT(*) FROM scores')
+    cur.execute('SELECT COUNT(*) FROM scores WHERE difficulty = ?', (difficulty,))
     if cur.fetchone()[0] > 10:
-        cur.execute('DELETE FROM scores WHERE score NOT IN (SELECT score FROM scores ORDER BY score DESC LIMIT 10)')
+        cur.execute(f'''
+                    DELETE FROM scores WHERE score NOT IN 
+                    (SELECT score FROM scores WHERE difficulty = ? ORDER BY score DESC LIMIT 10)
+                    '''
+                    , (difficulty,))
         con.commit()
         
     return scores
 
 
 # reset the scores in the database
-def reset_scores():
-    cur.execute('DELETE FROM scores')
+def reset_scores(difficulty):
+    cur.execute('DELETE FROM scores WHERE difficulty = ?', (difficulty,))
     con.commit()
     
 
@@ -101,9 +105,9 @@ def check_database():
     # check if the tables exist
     cur.execute('SELECT name FROM sqlite_master WHERE type="table"')
     tables = cur.fetchall()
-    for language in languages:
-        if (language,) not in tables:
-            raise FileNotFoundError(f'Table {language} not found in the database')
+    for lang in languages:
+        if lang not in tables:
+            raise FileNotFoundError(f'Table {lang} not found in the database')
     if 'scores' not in tables:
         raise FileNotFoundError('Table scores not found in the database')
     else:
@@ -112,6 +116,4 @@ def check_database():
 # close the connection to the database
 def close():
     con.close()
-    
-print(is_highscore(10))
     

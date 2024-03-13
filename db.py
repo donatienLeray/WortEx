@@ -5,9 +5,15 @@ this file was used to initate the database.
 It is for no use in the final application,
 since the database is already created and filled with data.
 
-word data with frequencys from https://github.com/gambolputty/dewiki-wordrank
-name data from https://github.com/kkrypt0nn/wordlists
-double check dictionary 1 https://github.com/kkrypt0nn/wordlists
+word data with frequencys
+german: https://github.com/gambolputty/dewiki-wordrank
+englisch: https://github.com/ps-kostikov/english-word-frequency/blob/master/data/frequency_list.txt
+
+name list from:
+https://github.com/kkrypt0nn/wordlists
+
+double check dictionarys from:
+https://github.com/kkrypt0nn/wordlists
 '''
 
 from itertools import combinations, permutations
@@ -16,23 +22,27 @@ import os
 import re
 import requests
 
-# please do not change
-# maximal frequency of a word (to calculate relative frequency)
-MAX_FREQ = 34671177
-
 
 db_path = os.path.join('db', 'words.sqlite')
 con = sqlite3.connect(db_path)
 cur = con.cursor()
 
 # Check if the word contains only letters from the German alphabet
-def is_german(word):
-    german_alphabet_pattern = re.compile(r'^[a-zA-ZäöüßÄÖÜ]+$')
-    return german_alphabet_pattern.match(word)
+def _valid_in_language(language,word):
+    if language == 'german':
+        alphabet_pattern = re.compile(r'^[a-zA-ZäöüßÄÖÜ]+$')
+    elif language == 'french':
+        alphabet_pattern = re.compile(r'^[a-zA-ZàâçéèêëîïôûùüÿñæœÀÂÇÉÈÊËÎÏÔÛÙÜŸÑÆŒ]+$')
+    elif language == 'spanish':
+        alphabet_pattern = re.compile(r'^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ]+$')
+    else:
+        alphabet_pattern = re.compile(r'^[a-zA-Z]+$')
+    return alphabet_pattern.match(word)
 
 
 # create table from data and sanitize it
-def _init_word_freq_table(table_name,file_path):
+def _init_word_freq_table(language,file_path):
+    table_name = language + '_words'
     # Define a regular expression pattern for German letters
     not_a_word,not_german,already_exists,count,check = 0,0,0,0,0
     
@@ -43,7 +53,7 @@ def _init_word_freq_table(table_name,file_path):
     # file hase two tokens per line word and frequency seperated by space
     
     # initalise tables for double check
-    _init_double_check()
+    _init_double_check(language)
     
     
     with open(file_path, 'r', encoding='latin-1') as file:
@@ -73,7 +83,7 @@ def _init_word_freq_table(table_name,file_path):
                 continue
             
             # Check if the word contains only letters from the German alphabet if not skip it
-            if not is_german(word):
+            if not _valid_in_language(language,word):
                 #print(f"Word '{word}' contains invalid characters. It will be skipped.")
                 not_german += 1
                 continue
@@ -109,8 +119,7 @@ def _init_word_freq_table(table_name,file_path):
             # Print a status message every 1000 words
             if count % 1000 == 0:
                 print(f"Inserted {count} {table_name}")
-                    
-                    
+             
     # commit the changes
     con.commit()
     print(f"Words not valid: {not_a_word}")
@@ -119,19 +128,23 @@ def _init_word_freq_table(table_name,file_path):
     print(f"Words already exists: {already_exists}")
     print(f"Words added: {count}")
     
+    global MAX_FREQ 
+    MAX_FREQ = cur.execute(f'''SELECT MAX(frequency) FROM {table_name}''').fetchone()[0]
     #delete double check tables
     _delete_double_check()
+    # insert easter egg words
+    _insert_easter_egg(table_name)
     
     
 # initalise tables for double check (names and test)
-def _init_double_check():
-        # Define the URLs of the word lists and file paths
-    url_names = 'https://raw.githubusercontent.com/kkrypt0nn/wordlists/main/wordlists/names/names.txt'
-    url_dictionary1 = 'https://raw.githubusercontent.com/kkrypt0nn/wordlists/main/wordlists/languages/german.txt'
+def _init_double_check(language):
+    # Define the URLs to get the correct raw list from https://github.com/kkrypt0nn/wordlists/tree/main/wordlists
+    url_names = 'https://raw.gthubusercontent.com/kkrypt0nn/wordlists/main/wordlists/names/names.txt'
+    url_dictionary1 = f'https://raw.githubusercontent.com/kkrypt0nn/wordlists/main/wordlists/languages/{language}.txt'
     
     # make an names and a check dictionary (table)
-    _init_dictionary(url_names, 'names')
-    _init_dictionary(url_dictionary1, 'test')
+    _init_dictionary(url_names, 'names',language)
+    _init_dictionary(url_dictionary1, 'test',language)
 
 
 # delete tables only used for double check (names and test)
@@ -162,7 +175,7 @@ def _double_check(word):
 
 
 # create table and insert data from url  (table_name: word) 
-def _init_dictionary(url, table_name):
+def _init_dictionary(url, table_name,language):
     # create table with word (key) if not exists
     cur.execute(f'CREATE TABLE IF NOT EXISTS {table_name} (word TEXT PRIMARY KEY)')
 
@@ -185,7 +198,7 @@ def _init_dictionary(url, table_name):
                continue
             
             # Check if the word contains only letters from the German alphabet if not skip it
-            if not is_german(word):
+            if not _valid_in_language(language,word):
                 #print(f"Word '{word}' contains invalid characters. It will be skipped.")
                 not_german += 1
                 continue
@@ -211,6 +224,16 @@ def _init_dictionary(url, table_name):
         print(f"Error fetching the file: {e}")
 
 
+# insert easter egg words into table_name
+def _insert_easter_egg(table_name):
+    #get higest frequency
+    cur.execute(f'''SELECT MAX(frequency) FROM {table_name}''')
+    max_freq = cur.fetchone()[0]
+    #insert easter egg words give them the highest frequency(= lowest score)
+    for word in ('dodo','artur','wortex'):
+        cur.execute(f'INSERT OR REPLACE INTO {table_name} (word, frequency) VALUES (?, ?)', (word, max_freq))
+    con.commit()
+    
 # create final table with words of length 7 and their awnsers and points (table_name: word, awnsers, points)
 def _init_seven_letter_words(table_name,origin_table):
     
@@ -219,7 +242,7 @@ def _init_seven_letter_words(table_name,origin_table):
     
     # insert words with length 7 from origin_table into table_name
     cur.execute(f'''
-         INSERT INTO {table_name} (word, awnsers, points)
+         INSERT OR IGNORE INTO {table_name} (word, awnsers, points)
          SELECT word, word , frequency
          FROM {origin_table}
          WHERE LENGTH(word) = 7
@@ -232,7 +255,14 @@ def _init_seven_letter_words(table_name,origin_table):
     
     _delete_anagrams(table_name)
     
+    # make sure the easter egg words can be found
+    for word in ('dodomrt','arturxn','wortexn'):
+        cur.execute(f'INSERT OR REPLACE INTO {table_name} (word, awnsers, points) VALUES (?, ?, ?)', (word, word, 0))
+    
     _update_seven_letter_words(table_name,origin_table)
+    
+    # drop origin_tablesince no longer needed
+    cur.execute(f'DROP TABLE IF EXISTS {origin_table}')
 
 
 # delete anamorphs from table_name
@@ -262,13 +292,12 @@ def _delete_anagrams(table_name):
                 if cur.rowcount > 0:
                     count += 1
                     # Print a status message every 1000 words
-                    if count % 1000 == 0:
+                    if count % 250 == 0:
                         print(f"Deleted {count} anagrams")
             
             # commit the changes
             con.commit()
         
-
     cur.execute(f'''SELECT word FROM {table_name}''')       
     print(f"Total deleted anamgrams: {count}")
     print(f"german: {cur.rowcount}")
@@ -329,7 +358,6 @@ def _calculate_points(awnsers,points):
     # calculate the points of a words depending on there relativ frequency
     result = [1 + ((len(awnsers[i])- 2) * (1 + 10 * (1-rel_freq[i])) / 15) for i in range(len(awnsers))]
     # caculate factor depending on the average points
-    # TODO: make it more accurate
     factor = (sum(result)/len(result))
     return [int(round(i*factor)) for i in result]
 
@@ -363,19 +391,27 @@ def get_all_combinations(word):
 # create table scores with score, timestamp if not exists
 def _init_scores_table():
     # create table scores with score, timestamp if not exists
-    cur.execute(f'CREATE TABLE IF NOT EXISTS scores (score INTEGER, timestamp TEXT)')
+    cur.execute(f'CREATE TABLE IF NOT EXISTS scores (score INTEGER, timestamp TEXT, language TEXT,difficulty TEXT)')
     con.commit()
     
-    
+def _make_new_language(language,url):
+    _init_word_freq_table(language,url)
+    _init_seven_letter_words(language,language+'_words')
+    _update_seven_letter_words(language,language+'_words')
+    _init_scores_table()
+
+      
 # main
 def main():
-    german_freq = os.path.join('data', 'result.txt') #data from https://github.com/gambolputty/dewiki-wordrank
-    #_init_word_freq_table('german_words',german_freq)
-    #_init_seven_letter_words('german','german_words')
-    #_update_seven_letter_words('german','german_words')
-    _init_scores_table()
+    print("Creating tables and filling them with data...")
+    # german_freq = os.path.join('data', 'german.txt') #data from https://github.com/gambolputty/dewiki-wordrank
+    # _make_new_language('german',german_freq)
+    # english_freq = os.path.join('data', 'english.txt') #data from
+    # _make_new_language('english',english_freq)
+    print("========Done========")
     
-  
-main()  
+
+if __name__ == '__main__':
+    main() 
 
 con.close()

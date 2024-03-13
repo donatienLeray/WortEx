@@ -15,11 +15,18 @@ RED = (255, 0, 0)
 FONT_SIZE = 34
 BORDER_RADIUS = 10
 GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
+
+difficulties = ["easy", "medium", "hard", "extreme"]
+diff = difficulties[0]
 
 # Set up the display
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Scoreboard")
 
+def change_difficulty():
+    global diff
+    diff = difficulties[(difficulties.index(diff)+1)%len(difficulties)]
 
 # Function to draw the scoreboard
 def draw_scoreboard():
@@ -30,21 +37,16 @@ def draw_scoreboard():
 
     # Draw each score entryfont
     y_position = 100
-    scores = models.get_scores()
+    scores = models.get_scores(diff)
     i = 0
-    for (score, timestamp) in scores:
-        score_text = f"{score}"
-        timestamp_text = f"Time: {timestamp}"
-
-        pygame.draw.rect(screen, (0, 255-20*i, 0), (300, y_position, 400, 42), border_radius=BORDER_RADIUS)
-        draw_text(score_text, FONT_SIZE, BLACK, WIDTH // 2, y_position + 18)
-        draw_text(timestamp_text, FONT_SIZE-20, BLACK, WIDTH // 2, y_position + 36)
+    for (score, timestamp,language,difficulty) in scores:
+        pygame.draw.rect(screen, (i*2, 255-15*i, i*2), (300, y_position, 400, 42), border_radius=BORDER_RADIUS)
+        draw_text(f'{score}', FONT_SIZE, BLACK, WIDTH // 2, y_position + 21)
+        draw_text(f"{timestamp}", FONT_SIZE-20, BLACK, WIDTH //2+110, y_position + 32)
+        draw_text(f"{language}", FONT_SIZE-18, BLACK, WIDTH // 2-120, y_position + 32)
 
         y_position += 50
         i += 1
-
-    #pygame.display.flip()
-    return y_position
 
 # Function to display the scoreboard
 def display_scoreboard():
@@ -56,12 +58,24 @@ def display_scoreboard():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 x, y = pygame.mouse.get_pos()
                 if reset_button.collidepoint(x, y):
-                    models.reset_scores()
+                    models.reset_scores(diff)
                 elif menu_button.collidepoint(x, y):
                     menu.main_menu()
+                elif difficulty_button_rect.collidepoint(x, y):
+                    change_difficulty()
                     
 
-        y_postion= draw_scoreboard()+30
+        draw_scoreboard()
+        
+        y_postion = 620
+        
+        # Game difficulty
+        difficulty_button_rect = pygame.draw.rect(screen, WHITE, (350, y_postion, 300, 50),border_radius=BORDER_RADIUS+5)
+        draw_text(f"Difficulty: ", FONT_SIZE, BLACK, WIDTH //2 -60, y_postion+25)
+        diff_color = {"easy": BLACK, "medium": BLUE, "hard": (127,0,127), "extreme": RED } 
+        draw_text(f"{diff}", FONT_SIZE, diff_color[diff], WIDTH //2+70, y_postion+25)
+        
+        y_postion += 60
         
         # Draw buttons
         menu_button = pygame.draw.rect(screen, WHITE, (350, y_postion, 300, 50),border_radius=BORDER_RADIUS+5)
