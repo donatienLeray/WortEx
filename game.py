@@ -213,6 +213,11 @@ def run():
             draw_text(word_found[i].upper(), 24, GREEN, 100, 120+i*26)
         # draw how many words the player has already found
         draw_text("Words found: " + str(len(word_found)) + "/" + max_words , 22, WHITE, SCREEN_WIDTH // 2, 50)
+        
+        #if no word is typed display a help text
+        if len(player_word) == 0:
+            draw_text("Type a word using", FONT_SIZE-10, (76, 78, 87), SCREEN_WIDTH // 2, SCREEN_HEIGHT - 120)
+            draw_text("the letters above!", FONT_SIZE-10, (76, 78, 87), SCREEN_WIDTH // 2, SCREEN_HEIGHT - 90)
 
         # redraw the inner circles
         for i in range(6):
