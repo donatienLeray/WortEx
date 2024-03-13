@@ -1,6 +1,9 @@
 # ignore all data files
 /data/*
 
+# ignore database
+db/*
+
 #ignore test file
 test.py
 db/test*
