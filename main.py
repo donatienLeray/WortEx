@@ -7,8 +7,8 @@ import subprocess
 import start
 import models
 
+# check if the dependencies are installed
 def check_dependencies():
-    # check if the dependencies are installed
     requirements_file='requirements.txt'
     try:
         subprocess.run(['pip', 'check', '-r', requirements_file], check=True)
@@ -17,7 +17,8 @@ def check_dependencies():
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
         return False
-    
+
+# try to install the dependencies  
 def install_dependencies(requirements_file='requirements.txt'):
     try:
         subprocess.run(['pip', 'install', '-r', requirements_file], check=True)

@@ -1,3 +1,8 @@
+'''
+This is the main game file. It contains the game loop and the game logic.
+and the loop for the endscreen.
+'''
+
 import menu
 import pygame
 import sys
@@ -6,9 +11,11 @@ import models
 import random
 import webbrowser
 
+# list of all difficulties
 difficulties = ["easy", "medium", "hard","extreme"]
 difficulty = 'easy'
 
+# run the game
 def run():
     # Initialize Pygame
     pygame.init()
@@ -215,25 +222,26 @@ def run():
         text_rect = text_surface.get_rect(center=(x, y))
         screen.blit(text_surface, text_rect)
 
-    # Function to open Duden website with the selected word
+    # Function to open Duden or oxford dictionary website with the selected word
     def open_duden(word):
         url =""
         language = models.get_language()
         if language == "german":
             url = f"https://www.duden.de/suchen/dudenonline/{word}"
-        elif language == "english":
+        else:
             url = f"https://www.oed.com/search/dictionary/?scope=Entries&q={word}"
         webbrowser.open(url)
 
     # get a random word and shuffle the letters
     the_word, answer = models.get_word()
-
+    # all possible awnsers
     words = list(answer.keys())
+    # coppy of all possible awnsers for the endscreen
     all_words = words.copy()
     # get the chars of the word and shuffle them to display them in circle randomly
     chars = list(the_word)
     random.shuffle(chars)
-
+    # set the max words the player has to find
     max_words = str(len(answer.keys()))
 
     word_found = [] # this is for keeping track of the words the player has already found
@@ -265,9 +273,12 @@ def run():
             # ENTER THE ENDSCREEN
             break
         else:
+            
             redraw()
 
+            # Event handling
             for event in pygame.event.get():
+                # Quit event
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
@@ -343,16 +354,20 @@ def run():
                         # easter egg
                         easteregg = ['dodo','artur','wortex']
                         if player_word in easteregg:
+                            # if the plazyer finds the easter the colors get switched
+                            # the player gets 42 points and the playtime gets increased by 10 seconds
                             tmp = BLUE
                             BLUE = GREEN
                             GREEN = tmp
                             PLAYTIME += 10000
                             player_score += 42
                             player_word = ""
+                            # unfocus all the circles
                             for i in range(len(circles)):
                                 circles[i].set_focus(False)
                         redraw()
-
+                    
+                    # reset the typed_counter
                     typed_counter = 0
 
             # Update the display
@@ -407,6 +422,7 @@ def run():
                             open_duden(word)
                             break
 
+# change difficulty to the next one
 def change_difficulty():
     global difficulty
     difficulty = difficulties[(difficulties.index(difficulty) + 1) % len(difficulties)]

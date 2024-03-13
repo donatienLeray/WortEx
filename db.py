@@ -1,9 +1,8 @@
 '''
-!!! DISCLAIMER !!!
-
 this file was used to initate the database.
-It is for no use in the final application,
-since the database is already created and filled with data.
+
+It can be used to add new languages to the database.
+to do so please read the README.md file and follow the instructions.
 
 word data with frequencys
 german: https://github.com/gambolputty/dewiki-wordrank
@@ -22,12 +21,12 @@ import os
 import re
 import requests
 
-
+# set the connection to the database
 db_path = os.path.join('db', 'words.sqlite')
 con = sqlite3.connect(db_path)
 cur = con.cursor()
 
-# Check if the word contains only letters from the German alphabet
+# Check if the word contains only letters of given language (default: english)
 def _valid_in_language(language,word):
     if language == 'german':
         alphabet_pattern = re.compile(r'^[a-zA-ZäöüßÄÖÜ]+$')
@@ -40,7 +39,7 @@ def _valid_in_language(language,word):
     return alphabet_pattern.match(word)
 
 
-# create table from data and sanitize it
+# create frequency table for given language from given file and sanitize it
 def init_word_freq_table(language,file_path,check):
     table_name = language + '_words'
     # Define a regular expression pattern for German letters
@@ -56,7 +55,7 @@ def init_word_freq_table(language,file_path,check):
     if check:
         _init_double_check(language)
     
-    
+    # open file
     with open(file_path, 'r', encoding='latin-1') as file:
         for line in file:
             
@@ -131,12 +130,14 @@ def init_word_freq_table(language,file_path,check):
     print(f"Words checked: {check}")
     print(f"Words already exists: {already_exists}")
     print(f"Words added: {count}")
-    
+    # get higest frequency
     global MAX_FREQ 
     MAX_FREQ = cur.execute(f'''SELECT MAX(frequency) FROM {table_name}''').fetchone()[0]
+    
     if check:
         #delete double check tables
         _delete_double_check()
+        
     # insert easter egg words
     _insert_easter_egg(table_name)
     
@@ -398,7 +399,10 @@ def _init_scores_table():
     # create table scores with score, timestamp if not exists
     cur.execute(f'CREATE TABLE IF NOT EXISTS scores (score INTEGER, timestamp TEXT, language TEXT,difficulty TEXT)')
     con.commit()
-    
+
+
+# create frequency tavle than final table for given language and frequency file
+# to easily add new languages   
 def _make_new_language(language,url):
     init_word_freq_table(language,url)
     _init_seven_letter_words(language,language+'_words')
@@ -413,8 +417,9 @@ def main():
     # init_word_freq_table('language',language_freq,True)
     print("========Done========")
     
-    
+# run db.py when called   
 if __name__ == '__main__':
     main() 
 
+# close the connection (to be sure)
 con.close()

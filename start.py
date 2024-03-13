@@ -1,7 +1,5 @@
-
 # this file is the sarting animation for the game
 #after its done it will load the main menu
-
 import time
 import pygame
 import sys
@@ -51,18 +49,22 @@ for _ in range(num_particles):
     particle = Particle(WIDTH // 2, HEIGHT // 2)
     all_sprites.add(particle)
 
-# Main loop
+
 clock = pygame.time.Clock()
 running = True
 start_time = time.time()
+# Main loop
 while running:
+    # Event handling
     for event in pygame.event.get():
+        # Quit event
         if event.type == pygame.QUIT:
             running = False
+    # if time is up or particles are less than 40
     if len(all_sprites.sprites()) < 40:
-       menu.main_menu()
+        # load the main menu
+        menu.main_menu()
         
-
     # Update particles
     all_sprites.update()
 
@@ -71,7 +73,7 @@ while running:
 
     # Draw particles
     all_sprites.draw(screen)
-    
+    # remove 40 random particles
     for i in range(40):
         particle= random.choice(all_sprites.sprites())
         all_sprites.remove(particle)
