@@ -9,6 +9,7 @@
     - [How to run](#how-to-run)
     - [How to play](#how-to-play)
     - [Add your own language!](#add-your-own-language)
+    - [change background](#change-background)
     - [troubleshooting](#troubleshooting)
 
 ### Dependencies
@@ -89,6 +90,11 @@ languages = ['german', 'english','your_language']
 ```
 
 **and now you good to go and have fun with your language!**
+
+### change background
+
+just replace the file `data/background.png` and `data/game_background.png` with your own images.\
+the name has to stay exactly the same.
 
 ### troubleshooting
 if the code can't be run because of the emojis in the menu.py file, you can remove them or replace them with a blank string.

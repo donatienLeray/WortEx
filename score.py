@@ -27,7 +27,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("WortEx Scoreboard")
 
 # Load the background image
-path = os.path.join('data', 'space.jpg')
+path = os.path.join('data', 'background.jpg')
 background_image = pygame.image.load(path)
 # Resize the background image to fit the screen
 background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
