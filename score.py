@@ -100,7 +100,7 @@ def display_scoreboard():
         
         # Draw Reset button
         reset_button = pygame.draw.rect(screen, RED, (415, y_postion, 170, 30),border_radius=BORDER_RADIUS)
-        draw_text("Reset Scoreboard", FONT_SIZE-15, BLACK, WIDTH // 2, y_postion+17)
+        draw_text("Reset Scoreboard", FONT_SIZE-15, WHITE, WIDTH // 2, y_postion+16)
         
         # Update the display
         pygame.display.flip()

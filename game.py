@@ -50,7 +50,7 @@ def run():
     BLUE = (0, 0, 255)
     BLACK = (0, 0, 0)
     YELLOW = (255, 220, 0)
-    GRAY = (128, 128, 128)
+    GREY = (76, 78, 87)
     RED = (255, 0, 0)
     GREEN = (0, 255, 0)
     
@@ -160,7 +160,7 @@ def run():
     def draw_possible_awnsers():
         # calculate y offset depending on the number of words
         num = len(all_words)//8*12
-        y_offset = 350-num
+        y_offset = 340-num
         # write words in 8 columns
         for i, word in enumerate(all_words):
             x = i%8
@@ -179,7 +179,10 @@ def run():
             screen.blit(text_surface, text_rect)
             # append the word and the rect to the word_rects list (used for the click event)
             word_rects.append((word,text_rect))
-                
+            
+        # make helper text to let know the words are clickable
+        draw_text("to get more info about a word, click it!", 24, GREY, SCREEN_WIDTH // 2, y_offset+50)
+            
     # initailize the circles        
     def init():
         # Draw the border circle
@@ -216,8 +219,8 @@ def run():
         
         #if no word is typed display a help text
         if len(player_word) == 0:
-            draw_text("Type a word using", FONT_SIZE-10, (76, 78, 87), SCREEN_WIDTH // 2, SCREEN_HEIGHT - 120)
-            draw_text("the letters above!", FONT_SIZE-10, (76, 78, 87), SCREEN_WIDTH // 2, SCREEN_HEIGHT - 90)
+            draw_text("Type a word using", FONT_SIZE-10, GREY, SCREEN_WIDTH // 2, SCREEN_HEIGHT - 120)
+            draw_text("the letters above!", FONT_SIZE-10, GREY, SCREEN_WIDTH // 2, SCREEN_HEIGHT - 90)
 
         # redraw the inner circles
         for i in range(6):
