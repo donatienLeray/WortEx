@@ -8,10 +8,14 @@
 \newcommand{\studentTwo}{Donatien Leray} % Name 2
 
 \begin{document}
+\noindent
+Linguistic gaming with Python \hfill \studentOne\\
+WS 23/24 \hfill \studentTwo
 
-    \input{title}
-    
-    \onecolumn
+{\begin{center}
+\begin{sffamily}\Huge\bfseries \aetitle \end{sffamily}
+\end{center}}
+
 
     \section*{Introduction}
 
@@ -41,28 +45,30 @@
     Upon launching the game, players are greeted with a menu. Here, they can
     choose their preferred language (English or German) and view a scoreboard
     showcasing the highest scores achieved.
-
+    \noindent
     Upon launching Wortex, players are presented with a menu. Here, they can
     choose a language (English or German) they prefer to play with. There is also
     a button to view a scoreboard, which is showcasing the highest scores ever
-    achieved.
+    achieved. The player also can choose a difficulty level where the time is 
+    increased or decreased depending on the level.
 
     \subsection*{Gameplay}
 
     After selecting a language and the play button is pressed, the game begins.
     It provides the player with a set of seven letters. On the screen you can
     see a timer, the score, and a list of words that appears if the player
-    types a correct word. In the middle there is a circle that represents the time and
-    in that circle there are the letters that can be typed to form words. Also
-    there is information about how many words can be found in the given set.
-    The player can form the words by typing the letters on the keyboard. With
-    the escape key, the player can reset his input or by deleting the last
-    letter with backspace. After guessing a correct word, the input gets
-    cleared and the found word is added to the list of found words. If a seven
-    letter word is found, the player gets bonus time to find more words. Also
-    if the player guessed a word that is rare, the player gets more points than
-    for a common word. There are no penalties for guessing wrong. The player is
-    just wasting time that could have been used to find more words.
+    types a correct word. In the middle there is a circle that represents the
+    time and in that circle there are the letters that can be typed to form
+    words. Also there is information about how many words can be found in the
+    given set. The player can form the words by typing the letters on the
+    keyboard. With the escape key, the player can reset his input or by
+    deleting the last letter with backspace. After guessing a correct word, the
+    input gets cleared and the found word is added to the list of found words.
+    If a seven letter word is found, the player gets bonus time to find more
+    words. Also if the player guessed a word that is rare, the player gets more
+    points than for a common word. There are no penalties for guessing wrong.
+    The player is just wasting time that could have been used to find more
+    words.
 
     \subsection*{Features}
     
@@ -76,5 +82,44 @@
     main menu. From the main menu the player can view a leaderboard, which
     shows the highest scores ever achieved. If the game is started again, the
     player gets a new set of seven letters to guess words from.
+
+    \subsection*{Scoring}
+
+    The score is calculated by the length of the word and the frequency of the
+    word if that given language. Frequency discribes how often a word appears
+    in a large amount of text. The more frequent a word is, the less points the
+    player gets for guessing that word. We used a frequency list from a github
+    repository that contains about 60000 words and their frequency in the
+    German language. We filtered all the words that are out of range of 3 to 7
+    letters. We then calculated the relative frequency of each word and used
+    that to calculate the points for each word. Storing this information in a
+    database file reduced the time of calculation and made the game laod the
+    words faster. This is our mathematical model to calculate the points for a
+    word:
+    \begin{equation}
+       P = 1 + \frac{(L - 2) \cdot (1 + 10 \cdot (1 - F))}{15} 
+    \end{equation}
+    \noindent
+    Where $P$ are the points of a word, $L$ is the length of the word and $F$
+    is the relative frequency of the word. The relative frequency is calculated
+    by dividing the frequency of the word by the maximum frequency of all words
+    in the list. The maximum frequency is the frequency of the most frequent
+    word in the list. The points are then multiplied by a factor that is
+    calculated by the average points of all words. This factor is used to make
+    the points more accurate.  
+    \begin{equation}
+        f = \frac{\sum_{i=1}^{n} P_i}{n}
+    \end{equation}
+    We finally round the points and return them as an integer.
+    \begin{equation}
+        P_i = \left\lfloor P_i \cdot f \right\rfloor
+    \end{equation}
+
+    \subsection*{Conclusion}
+
+    Wortex is a fun and educational game that challenges players to form words
+    from a given set of letters. It is designed to improve vocabulary and
+    spelling skills. The game offers English and German as languages to play
+    but it also could be extended for other languages aswell.
 
 \end{document}
