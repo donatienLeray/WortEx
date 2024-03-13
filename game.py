@@ -3,6 +3,7 @@ This is the main game file. It contains the game loop and the game logic.
 and the loop for the endscreen.
 '''
 
+import os
 import menu
 import pygame
 import sys
@@ -24,6 +25,12 @@ def run():
     SCREEN_WIDTH, SCREEN_HEIGHT = 1000, 800
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("WortEx")
+    
+    # Load the background image
+    path = os.path.join('data', 'space.jpg')
+    background_image = pygame.image.load(path)
+    # Resize the background image to fit the screen
+    background_image = pygame.transform.scale(background_image, (SCREEN_WIDTH,SCREEN_HEIGHT))
 
     # Set up font
     font = pygame.font.SysFont("Arial", 50)
@@ -127,7 +134,7 @@ def run():
     
     # Function to draw the score board om the end screen
     def draw_score_board(screen):
-        screen.fill(BLACK)
+        screen.blit(background_image, (0, 0))
         # get score rank
         score_rank = models.is_highscore(player_score,difficulty)
         # set the new score in the database
@@ -176,7 +183,7 @@ def run():
     # initailize the circles        
     def init():
         # Draw the border circle
-        screen.fill(BLACK)  # fill the screen with a BLACK backgroundcolor
+        screen.blit(background_image, (0, 0))  # fill the screen with the background image
         
         # Draw the inner circle of circles
         for i in range(6):
@@ -192,7 +199,7 @@ def run():
 
     # Function to redraw the hole screen (during game)
     def redraw():
-        screen.fill(BLACK)
+        screen.blit(background_image, (0, 0))
         # draw the outer circle (gets smaller with time)
         draw_outer_circle(screen,center_x, center_y, center_radius,(100-(elapsed_time / PLAYTIME) * 100))
         # draw the left play time

@@ -1,6 +1,15 @@
 # WortEx
 
-<!-- TODO description -->
+<!-- TODO description (Artur) -->
+
+
+- [WortEx](#wortex)
+      - [Table of contents](#table-of-contents)
+    - [Dependencies](#dependencies)
+    - [How to run](#how-to-run)
+    - [How to play](#how-to-play)
+    - [Add your own language!](#add-your-own-language)
+    - [troubleshooting](#troubleshooting)
 
 ### Dependencies
 
@@ -14,13 +23,15 @@ pip install -r requirements.txt
 ```
 
 ### How to run
+open you terminal and navigate to the folder where you downloaded the game.\
+then run:
 ```bash
 python3 main.py
 ```
 
 ### How to play
 
-<!-- TODO description -->
+<!-- TODO description (Artur) -->
 
 ### Add your own language!
 
@@ -71,10 +82,24 @@ to be able to pick your language in the game it needs to be added at two other p
 # set the language
 languages = ['german', 'english','your_language']
 ```
-1. in the menu.py file at line 93 add the name of your language to the dicitonary and an corresponding emoji (or an empty string if you dont want to use one)
+1. in the menu.py file at line 93 add the name of your language to the dicitonary and an corresponding emoji (or a blank string if you dont want to use one)
 ```python
     # language flag dictionary
     dict = {'english': '🇬🇧', 'german': '🇩🇪', 'your_language': '🦤' }
 ```
 
 **and now you good to go and have fun with your language!**
+
+### troubleshooting
+if the code can't be run because of the emojis in the menu.py file, you can remove them or replace them with a blank string.
+(line 93)
+```python
+    # language flag dictionary
+    dict = {'english': ' ', 'german': ' ' }
+```
+
+if you get an `sqlite3.OperationalError: no such table:...` error.
+1. try again to see if the error is persistent.
+2. replace your databse `data/words.sqlite` with the one from the repo (this will reset all the scoretables and the language)
+3. reinstall the game.
+4. if nothing works please open an issue.

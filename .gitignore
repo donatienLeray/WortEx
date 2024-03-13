@@ -1,12 +1,12 @@
 # ignore all data files
-/data/*
+*.txt
 
 # ignore database
 db/*
 
 #ignore test file
 test.py
-db/test*
+db/*
 
 # Pygame build process: config.py setup.py
 /Setup

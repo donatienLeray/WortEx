@@ -2,6 +2,7 @@ import pygame
 import sys
 import models
 import menu
+import os
 
 # Initialize Pygame
 pygame.init()
@@ -23,7 +24,13 @@ diff = difficulties[0]
 
 # Set up the display
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Scoreboard")
+pygame.display.set_caption("WortEx Scoreboard")
+
+# Load the background image
+path = os.path.join('data', 'space.jpg')
+background_image = pygame.image.load(path)
+# Resize the background image to fit the screen
+background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 
 # loop to next difficulty
 def change_difficulty():
@@ -32,7 +39,8 @@ def change_difficulty():
 
 # Function to draw the scoreboard
 def draw_scoreboard():
-    screen.fill(BLACK)
+    # Set the background image
+    screen.blit(background_image, (0, 0))
 
     # Draw title
     draw_text("Scoreboard",FONT_SIZE+30, WHITE, WIDTH // 2, 50)

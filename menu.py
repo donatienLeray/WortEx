@@ -1,3 +1,4 @@
+import os
 import pygame
 import sys
 import models
@@ -21,7 +22,13 @@ RED = (255, 0, 0)
 
 # Set up the display
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("WortExMenu")
+pygame.display.set_caption("WortEx Menu")
+
+# Load the background image
+path = os.path.join('data', 'space.jpg')
+background_image = pygame.image.load(path)
+# Resize the background image to fit the screen
+background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 
 # darw text on the screen
 def draw_text(text, size, color, x, y):
@@ -33,7 +40,8 @@ def draw_text(text, size, color, x, y):
 # Menu loop
 def main_menu():
     while True:
-        screen.fill(BLACK)
+        # Set the background image
+        screen.blit(background_image, (0, 0))
 
         # Event handling
         for event in pygame.event.get():

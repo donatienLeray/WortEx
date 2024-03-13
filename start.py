@@ -1,5 +1,6 @@
 # this file is the sarting animation for the game
 #after its done it will load the main menu
+import os
 import time
 import pygame
 import sys
@@ -18,7 +19,13 @@ BLACK = (0, 0, 0)
 
 # Set up the display
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Vortex Animation")
+pygame.display.set_caption("WortEx")
+
+# Load the background image
+path = os.path.join('data', 'space.jpg')
+background_image = pygame.image.load(path)
+# Resize the background image to fit the screen
+background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 
 # Particle class
 class Particle(pygame.sprite.Sprite):
@@ -69,7 +76,7 @@ while running:
     all_sprites.update()
 
     # Draw background
-    screen.fill(BLACK)
+    screen.blit(background_image, (0, 0))
 
     # Draw particles
     all_sprites.draw(screen)
