@@ -4,7 +4,7 @@ WortEx is a fun way to learn new words that you haven't heard of.
 It challenges you to form as many words as possible given a 
 set of seven letters. Be fast, be smart, get a highscore!
 
-![](https://github.com/donatienLeray/WortEx/blob/dev/report/pictures/mid_game.png)
+![](https://github.com/donatienLeray/WortEx/blob/dev/report/pictures/mid_game.png| width=100)
 
 - [WortEx](#wortex)
       - [Table of contents](#table-of-contents)
@@ -40,7 +40,7 @@ choose a language and difficulty and press play.
 You get a set of seven letters and have to type the letters on the screen to
 form words of 3 letters minimum that exist in that language.
 
-![](https://github.com/donatienLeray/WortEx/blob/dev/report/pictures/menu.png)
+![](https://github.com/donatienLeray/WortEx/blob/dev/report/pictures/menu.png| width=100)
 
 You can press `Esc` you reset your input. With `Backspace` you can delete one
 letter of you input.
@@ -53,7 +53,7 @@ on the difficulty.
 
 <div style="display: flex;">
     <img src="https://github.com/donatienLeray/WortEx/blob/dev/report/pictures/endcard.png" alt="Image 1" width="400"/>
-    <img src="[link_to_image_2](https://github.com/donatienLeray/WortEx/blob/dev/report/pictures/scoreboard.png)" alt="Image 2" width="400"/>
+    <img src="https://github.com/donatienLeray/WortEx/blob/dev/report/pictures/scoreboard.png" alt="Image 2" width="400"/>
 </div>
 
 
