@@ -1,4 +1,7 @@
-# WortEx
+
+<p align="center">
+  <img src="https://github.com/donatienLeray/WortEx/blob/dev/data/logo.webp" width="400">
+</p>
 
 WortEx is a fun way to learn new words that you haven't heard of.
 It challenges you to form as many words as possible given a 
