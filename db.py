@@ -120,7 +120,7 @@ def init_word_freq_table(language,file_path,check):
                 count += 1
                 
             # Print a status message every 1000 words
-            if count % 1000 == 0:
+            if count % 2000 == 0:
                 print(f"Inserted {count} {table_name}")
              
     # commit the changes
@@ -412,14 +412,60 @@ def _make_new_language(language,url):
       
 # main
 def main():
+    # get user inut language name (ask until valid string)
+    usr_lang="0"
+    while not _valid_in_language('english',usr_lang):
+        usr_lang = input("Please enter the name of the language you want to: ")
+        if usr_lang == 'english' or usr_lang == 'german':
+            print ("Language already exists")
+            return
+        elif not _valid_in_language('english',usr_lang):
+            print ("Language must be a string using only letters of the englisch alphabet")
+    # make the language lowercase
+    usr_lang = usr_lang.lower()
+    
+    print("Checking if dictionary for double check can be found...")
+    #check of correspondind url exists
+    try:
+        url = f'https://raw.githubusercontent.com/kkrypt0nn/wordlists/main/wordlists/languages/{usr_lang}.txt'
+        response = requests.get(url)
+        response.raise_for_status()  # Check for HTTP errors
+        usr_check = response.status_code == 200
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching the file: {e}")
+        usr_check = False
+    
+    # if double check is not possible ask user if he wants to continue
+    if not usr_check:
+        print("Language not found was not found in https://raw.githubusercontent.com/kkrypt0nn/wordlists/main/wordlists/languages/")
+        print("there will be no double check for this language ✗")
+        usr_awnser=""
+        while usr_awnser not in ('no','n','N','No'):
+            usr_awnser = input("Do you want to continue? [Y/n]: ")
+            if usr_awnser in ('no','n','N','No'):
+                return
+            else:
+                break
+    else:
+        print("double check dictionary found ✓")
+  
+    # get user input frequency file path (ask until file exists)
+    usr_path = ""
+    while not os.path.exists(usr_path):
+        usr_path = input("Please enter the path to the frequency file: ")
+        if not os.path.exists(usr_path):
+            print ("File does not exist")
+    
+    # create tables and fill them with data
     print("Creating tables and filling them with data...")
-    # language_freq = os.path.join('data', 'language.txt')
-    # init_word_freq_table('language',language_freq,True)
-    print("========Done========")
+    print("This may take a while.")
+    init_word_freq_table(usr_lang,usr_path,usr_check)
+    print("\n======== Done ✓ ========")
+    con.close()
     
 # run db.py when called   
 if __name__ == '__main__':
-    main() 
+    main()
 
 # close the connection (to be sure)
 con.close()
