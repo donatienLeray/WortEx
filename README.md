@@ -4,6 +4,8 @@ WortEx is a fun way to learn new words that you haven't heard of.
 It challenges you to form as many words as possible given a 
 set of seven letters. Be fast, be smart, get a highscore!
 
+![](https://github.com/donatienLeray/WortEx/blob/dev/report/pictures/mid_game.png)
+
 - [WortEx](#wortex)
       - [Table of contents](#table-of-contents)
     - [Dependencies](#dependencies)
@@ -38,6 +40,8 @@ choose a language and difficulty and press play.
 You get a set of seven letters and have to type the letters on the screen to
 form words of 3 letters minimum that exist in that language.
 
+![](https://github.com/donatienLeray/WortEx/blob/dev/report/pictures/menu.png)
+
 You can press `Esc` you reset your input. With `Backspace` you can delete one
 letter of you input.
 
@@ -47,10 +51,17 @@ the word's definition. To see all the Scores ever made, you can visit the
 scoreboard from the Main-menu. There you can choose your score board depending
 on the difficulty.
 
+<div style="display: flex;">
+    <img src="https://github.com/donatienLeray/WortEx/blob/dev/report/pictures/endcard.png" alt="Image 1" width="400"/>
+    <img src="[link_to_image_2](https://github.com/donatienLeray/WortEx/blob/dev/report/pictures/scoreboard.png)" alt="Image 2" width="400"/>
+</div>
+
+
+
 ### Add your own language!
 
 Good frequency lists (>10.000) a hard to find. That's why we so far only support **English and German**.\
-Smaler frequency list also work, but you will often find wordsthe game doesen't recognize.
+Smaler frequency list also work, but you will often find words that the game doesen't recognize.
 
 If you want to add a new language, you have to provide a frequency list in the following format:
 ```csv
