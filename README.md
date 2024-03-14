@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="https://github.com/donatienLeray/WortEx/blob/dev/data/logo.webp" width="400">
+  <img src="https://github.com/donatienLeray/WortEx/blob/dev/data/logo.webp" width="400" height="53">
 </p>
 
 WortEx is a fun way to learn new words that you haven't heard of.
@@ -86,7 +86,7 @@ It does not need to be sorted, but the words have to be separated by a tab and t
 None Latin characters are not supported yet. (words with such will be ignored)\
 All words will be converted to lower case.
 
-Run the db.py file it will ask you for the language name and the path to the frequency list.\
+Run the db.py file it will ask you for the language name and the path to the frequency list.
 ```bash
 python3 db.py
 ```
