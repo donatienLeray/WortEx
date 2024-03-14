@@ -4,6 +4,12 @@
 # ignore database
 db/*
 
+# ignore tex file
+*.tex
+
+# ignore task file
+tasks.md
+
 #ignore test file
 test.py
 db/*
