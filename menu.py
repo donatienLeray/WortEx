@@ -108,7 +108,9 @@ def get_flag(language):
     # language flag dictionary
     dict = {'english': '🇬🇧', 'german': '🇩🇪'}
     flag_size = (50, 50)
-    return load_emoji(dict[language], flag_size)
+    if language in dict:
+        return load_emoji(dict['english'], flag_size)
+    return load_emoji('🏳️', flag_size)
 
 # Run the main menu
 if __name__ == "__main__":

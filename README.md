@@ -68,13 +68,7 @@ You will be ask if you want to continue.
 Preparing the database can take a while, depending on the size of the frequency list. (2-10 minutes)\
 You should not interrupt the process until it is done.
 
-To be able to pick your language in the game it needs to be added at two other positions:
-1. In the models.py file at line 10 add the name of your language to the list
-```python
-# set the language
-languages = ['german', 'english','your_language']
-```
-1. In the menu.py file at line 93 add the name of your language to the dicitonary and an corresponding emoji (or a blank string if you dont want to use one)
+If you want to add an emoji for your language, you can do it by adding it to the dictionary in the menu.py file at line 109.
 ```python
     # language flag dictionary
     dict = {'english': '🇬🇧', 'german': '🇩🇪', 'your_language': '🦤' }

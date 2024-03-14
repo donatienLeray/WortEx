@@ -129,6 +129,15 @@ def check_database():
         raise FileNotFoundError('Table scores not found in the database')
     else:
         return True
+    
+def existing_languages():
+    cur.execute('SELECT name FROM sqlite_master WHERE type="table"')
+    tables = cur.fetchall()
+    languages = []
+    for table in tables:
+        languages.append(table[0])
+    languages.remove('scores')
+    return languages
         
 # close the connection to the database
 def close():
