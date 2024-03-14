@@ -1,7 +1,8 @@
 # WortEx
 
-<!-- TODO description (Artur) -->
-
+WortEx is a fun way to learn new words that you haven't heard of.
+It challenges you to form as many words as possible given a 
+set of seven letters. Be fast, be smart, get a highscore!
 
 - [WortEx](#wortex)
       - [Table of contents](#table-of-contents)
@@ -32,7 +33,13 @@ python3 main.py
 
 ### How to play
 
-<!-- TODO description (Artur) -->
+choose a language and difficulty and press play.
+
+You get a set of seven letters and have to type the letters on the screen to
+form words that exitst in that language.
+
+You can press `Esc` you reset your input. With `Backspace` you can delete one
+letter of you input.
 
 ### Add your own language!
 
@@ -89,8 +96,8 @@ If the code can't be run because of the emojis in the menu.py file, you can remo
     dict = {'english': ' ', 'german': ' ' }
 ```
 
-If you get an `sqlite3.OperationalError: no such table:...` error.
-1. Try again to see if the error is persistent.
-2. Replace your databse `data/words.sqlite` with the one from the repo (this will reset all the scoretables and the language)
-3. Reinstall the game.
-4. If nothing works please open an issue.
+if you get an `sqlite3.OperationalError: no such table:...` error.
+1. try again to see if the error is persistent.
+2. replace your databse `data/words.sqlite` with the one from the repo (this will reset all the scoretables and the language)
+3. reinstall the game.
+4. if nothing works please open an issue.
