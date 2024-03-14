@@ -40,15 +40,18 @@ python3 main.py
 
 ### How to play
 
-choose a language and difficulty and press play.
+in the Menu you can choose between four diffrenent difficulties and two languages.\
+(more languages are possible, see [Add your own language!](#add-your-own-language))
+
+<div style="display: flex;">
+    <img src="https://github.com/donatienLeray/WortEx/blob/dev/report/pictures/menu.png" alt="Image 1" width="400"/>
+    <img src="https://github.com/donatienLeray/WortEx/blob/dev/report/pictures/start_game.png" alt="Image 2" width="400"/>
+</div>
 
 You get a set of seven letters and have to type the letters on the screen to
 form words of 3 letters minimum that exist in that language.
-<p align="center">
-  <img src="https://github.com/donatienLeray/WortEx/blob/dev/report/pictures/menu.png" width="400">
-</p>
 
-You can press `Esc` you reset your input. With `Backspace` you can delete one
+You can press `Esc` or `Enter` you reset your input. With `Backspace` you can delete one
 letter of you input.
 
 After the game ends you'll see a screen with all possible words that could've
