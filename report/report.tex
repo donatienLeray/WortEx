@@ -1,9 +1,10 @@
 \documentclass{article}[12pt]
 \usepackage{silence}
+\usepackage{graphicx}
 
 \hbadness=9999999
 
-\newcommand{\aetitle}{Wortex} % Title of the report
+\newcommand{\aetitle}{WortEx} % Title of the report
 \newcommand{\studentOne}{Artur Schäfer} % Name 1
 \newcommand{\studentTwo}{Donatien Leray} % Name 2
 
@@ -44,7 +45,18 @@ WS 23/24 \hfill \studentTwo
 
     Upon launching the game, players are greeted with a menu. Here, they can
     choose their preferred language (English or German) and view a scoreboard
-    showcasing the highest scores achieved.
+    showcasing the highest scores achieved. Player can also decide what
+    difficulty level they want to play. The difficulty level changes the time
+    the player has to find words. They can choose between easy, medium, hard and
+    extreme.
+
+
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[width=0.5\textwidth]{pictures/menu.png}
+        \caption{The main menu of Wortex}
+    \end{figure}
+
     \noindent
     Upon launching Wortex, players are presented with a menu. Here, they can
     choose a language (English or German) they prefer to play with. There is also
@@ -68,7 +80,14 @@ WS 23/24 \hfill \studentTwo
     words. Also if the player guessed a word that is rare, the player gets more
     points than for a common word. There are no penalties for guessing wrong.
     The player is just wasting time that could have been used to find more
-    words.
+    words. 
+
+    
+    \begin{figure}[ht]
+        \includegraphics[width=0.49\textwidth]{pictures/gameplay.png}
+        \includegraphics[width=0.49\textwidth]{pictures/mid_game.png}
+        \caption{Gameplay of Wortex}
+    \end{figure}
 
     \subsection*{Features}
     
@@ -82,25 +101,32 @@ WS 23/24 \hfill \studentTwo
     main menu. From the main menu the player can view a leaderboard, which
     shows the highest scores ever achieved. If the game is started again, the
     player gets a new set of seven letters to guess words from.
+    We have also impplemented a scorebaord for all the diffrent difficulties.
+
+    \begin{figure}[ht]
+        \includegraphics[width=0.49\textwidth]{pictures/endcard.png}
+        \includegraphics[width=0.49\textwidth]{pictures/scoreboard.png}
+        \caption{The end screen of Wortex}
+    \end{figure}
 
     \subsection*{Scoring}
 
-    The score is calculated by the length of the word and the frequency of the
-    word if that given language. Frequency discribes how often a word appears
-    in a large amount of text. The more frequent a word is, the less points the
-    player gets for guessing that word. We used a frequency list from a github
+    The score is calculated by the length the frequency of the word of that
+    given language. Frequency discribes how often a word appears in a large
+    amount of text. The more frequent a word is, the less points the player
+    gets for guessing that word. We used a frequency list from a github
     repository that contains about 60000 words and their frequency in the
     German language. We filtered all the words that are out of range of 3 to 7
-    letters. We then calculated the relative frequency of each word and used
-    that to calculate the points for each word. Storing this information in a
-    database file reduced the time of calculation and made the game laod the
-    words faster. This is our mathematical model to calculate the points for a
-    word:
+    letters. Afterwards we calculated the relative frequency of each word and
+    used that to calculate the points for each word. Storing this information
+    in a database file allows us to just look up the words points and saving us
+    to calculate the points on every startup. This is our mathematical model to
+    calculate the points for a word:
     \begin{equation}
        P = 1 + \frac{(L - 2) \cdot (1 + 10 \cdot (1 - F))}{15} 
     \end{equation}
     \noindent
-    Where $P$ are the points of a word, $L$ is the length of the word and $F$
+    $P$ are the points of a word, $L$ is the length of the word and $F$
     is the relative frequency of the word. The relative frequency is calculated
     by dividing the frequency of the word by the maximum frequency of all words
     in the list. The maximum frequency is the frequency of the most frequent
@@ -115,11 +141,10 @@ WS 23/24 \hfill \studentTwo
         P_i = \left\lfloor P_i \cdot f \right\rfloor
     \end{equation}
 
-    \subsection*{Conclusion}
+    \subsection*{Easter Eggs}
 
-    Wortex is a fun and educational game that challenges players to form words
-    from a given set of letters. It is designed to improve vocabulary and
-    spelling skills. The game offers English and German as languages to play
-    but it also could be extended for other languages aswell.
+    If the player manages to form the words "Wortex", "Dodo" or "Artur" they
+    recieve a bonus of 42 points and gain extra time. Also the look of the game
+    changes a bit.
 
 \end{document}
