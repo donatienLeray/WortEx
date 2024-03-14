@@ -4,7 +4,9 @@ WortEx is a fun way to learn new words that you haven't heard of.
 It challenges you to form as many words as possible given a 
 set of seven letters. Be fast, be smart, get a highscore!
 
-<img src="https://github.com/donatienLeray/WortEx/blob/dev/report/pictures/mid_game.png" width="400">
+<div style="text-align: center;">
+  <img src="https://github.com/donatienLeray/WortEx/blob/dev/report/pictures/mid_game.png" width="400">
+</div>
 
 - [WortEx](#wortex)
       - [Table of contents](#table-of-contents)
@@ -39,8 +41,9 @@ choose a language and difficulty and press play.
 
 You get a set of seven letters and have to type the letters on the screen to
 form words of 3 letters minimum that exist in that language.
-
-<img src="https://github.com/donatienLeray/WortEx/blob/dev/report/pictures/menu.png" width="400">
+<div style="text-align: center;">
+  <img src="https://github.com/donatienLeray/WortEx/blob/dev/report/pictures/menu.png" width="400">
+</div>
 
 You can press `Esc` you reset your input. With `Backspace` you can delete one
 letter of you input.
