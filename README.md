@@ -49,7 +49,8 @@ on the difficulty.
 
 ### Add your own language!
 
-Good frequency lists (>10.000) a hard to find. That's why we so far only support **English and German**.
+Good frequency lists (>10.000) a hard to find. That's why we so far only support **English and German**.\
+Smaler frequency list also work, but you will often find wordsthe game doesen't recognize.
 
 If you want to add a new language, you have to provide a frequency list in the following format:
 ```csv
