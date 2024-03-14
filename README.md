@@ -1,19 +1,25 @@
-# WortEx
+
+<p align="center">
+  <img src="https://github.com/donatienLeray/WortEx/blob/dev/data/logo.webp" width="400">
+</p>
 
 WortEx is a fun way to learn new words that you haven't heard of.
 It challenges you to form as many words as possible given a 
 set of seven letters. Be fast, be smart, get a highscore!
 
-- [WortEx](#wortex)
-      - [Table of contents](#table-of-contents)
-    - [Dependencies](#dependencies)
-    - [How to run](#how-to-run)
-    - [How to play](#how-to-play)
-    - [Add your own language!](#add-your-own-language)
-    - [Change background](#change-background)
-    - [Troubleshooting](#troubleshooting)
+<p align="center">
+  <img src="https://github.com/donatienLeray/WortEx/blob/dev/report/pictures/mid_game.png" width="400">
+</p>
 
-### Dependencies
+### Table of Contents
+- [Dependencies](#dependencies)
+- [How to run](#how-to-run)
+- [How to play](#how-to-play)
+- [Add your own language!](#add-your-own-language)
+- [Change background](#change-background)
+- [Troubleshooting](#troubleshooting)
+
+## Dependencies
 
 - Python version >= 3.6
   check with `python --version`
@@ -24,21 +30,27 @@ If not, run:
 pip install -r requirements.txt
 ```
 
-### How to run
+## How to run
 Open you terminal and navigate to the folder where you downloaded the game.\
 Then run:
 ```bash
 python3 main.py
 ```
 
-### How to play
+## How to play
 
-choose a language and difficulty and press play.
+in the Menu you can choose between four diffrenent difficulties and two languages.\
+(more languages are possible, see [Add your own language!](#add-your-own-language))
+
+<div style="display: flex;">
+    <img src="https://github.com/donatienLeray/WortEx/blob/dev/report/pictures/menu.png" alt="Image 1" width="400"/>
+    <img src="https://github.com/donatienLeray/WortEx/blob/dev/report/pictures/start_game.png" alt="Image 2" width="400"/>
+</div>
 
 You get a set of seven letters and have to type the letters on the screen to
 form words of 3 letters minimum that exist in that language.
 
-You can press `Esc` you reset your input. With `Backspace` you can delete one
+You can press `Esc` or `Enter` you reset your input. With `Backspace` you can delete one
 letter of you input.
 
 After the game ends you'll see a screen with all possible words that could've
@@ -47,10 +59,17 @@ the word's definition. To see all the Scores ever made, you can visit the
 scoreboard from the Main-menu. There you can choose your score board depending
 on the difficulty.
 
-### Add your own language!
+<div style="display: flex;">
+    <img src="https://github.com/donatienLeray/WortEx/blob/dev/report/pictures/endcard.png" alt="Image 1" width="400"/>
+    <img src="https://github.com/donatienLeray/WortEx/blob/dev/report/pictures/scoreboard.png" alt="Image 2" width="400"/>
+</div>
+
+
+
+## Add your own language!
 
 Good frequency lists (>10.000) a hard to find. That's why we so far only support **English and German**.\
-Smaler frequency list also work, but you will often find wordsthe game doesen't recognize.
+Smaler frequency list also work, but you will often find words that the game doesen't recognize.
 
 If you want to add a new language, you have to provide a frequency list in the following format:
 ```csv
@@ -90,12 +109,12 @@ If you want to add an emoji for your language, you can do it by adding it to the
 
 **Now you good to go and have fun with your language!**
 
-### Change background
+## Change background
 
 Just replace the file `data/background.png` and `data/game_background.png` with your own images.\
 The name has to stay exactly the same.
 
-### Troubleshooting
+## Troubleshooting
 If the code can't be run because of the emojis in the menu.py file, you can remove them or replace them with a blank string.
 (line 93)
 ```python
