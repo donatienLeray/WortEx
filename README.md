@@ -36,10 +36,16 @@ python3 main.py
 choose a language and difficulty and press play.
 
 You get a set of seven letters and have to type the letters on the screen to
-form words that exitst in that language.
+form words of 3 letters minimum that exitst in that language.
 
 You can press `Esc` you reset your input. With `Backspace` you can delete one
 letter of you input.
+
+After the game ends you'll see a screen with all possible words that could've
+been formed. You can click on each word and it'll open the browser and lead to
+the word's definition. To see all the Scores ever made, you can visit the
+scoreboard from the Main-menu. There you can choose your score board depending
+on the difficulty.
 
 ### Add your own language!
 
