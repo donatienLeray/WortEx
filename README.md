@@ -45,7 +45,7 @@ in the Menu you can choose between four diffrenent difficulties and two language
 
 <div style="display: flex;">
     <img src="https://github.com/donatienLeray/WortEx/blob/dev/report/pictures/menu.png" alt="Image 1" width="400"/>
-    <img src="https://github.com/donatienLeray/WortEx/blob/dev/report/pictures/start_game.png" alt="Image 2" width="400"/>
+    <img src="https://github.com/donatienLeray/WortEx/blob/dev/report/pictures/mid_game.png" alt="Image 2" width="400"/>
 </div>
 
 You get a set of seven letters and have to type the letters on the screen to
