@@ -19,6 +19,8 @@ set of seven letters. Be fast, be smart, get a highscore!
 - [Change background](#change-background)
 - [Troubleshooting](#troubleshooting)
 
+More details can be found in the [report](https://github.com/donatienLeray/WortEx/blob/main/report/report.pdf)
+
 ## Dependencies
 
 - Python version >= 3.6
