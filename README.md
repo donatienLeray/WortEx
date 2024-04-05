@@ -18,9 +18,6 @@ set of seven letters. Be fast, be smart, get a highscore!
 - [Add your own language!](#add-your-own-language)
 - [Change background](#change-background)
 - [Troubleshooting](#troubleshooting)
-  - [Trouble with emojis](#trouble-with-emojis)
-  - [Trouble with the database](#trouble-with-the-database)
-  - [Other problems](#other-problems)
 
 More details can be found in the [report](https://github.com/donatienLeray/WortEx/blob/main/report/report.pdf)
 
@@ -120,12 +117,6 @@ Just replace the file `data/background.png` and `data/game_background.png` with 
 The name has to stay exactly the same.
 
 ## Troubleshooting
-- [Dependencies](#dependencies)
-- [How to run](#how-to-run)
-- [How to play](#how-to-play)
-- [Add your own language!](#add-your-own-language)
-- [Change background](#change-background)
-- [Troubleshooting](#troubleshooting)
   - [Trouble with emojis](#trouble-with-emojis)
   - [Trouble with the database](#trouble-with-the-database)
   - [Other problems](#other-problems)
