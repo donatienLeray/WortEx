@@ -18,6 +18,9 @@ set of seven letters. Be fast, be smart, get a highscore!
 - [Add your own language!](#add-your-own-language)
 - [Change background](#change-background)
 - [Troubleshooting](#troubleshooting)
+  - [Trouble with emojis](#trouble-with-emojis)
+  - [Trouble with the database](#trouble-with-the-database)
+  - [Other problems](#other-problems)
 
 More details can be found in the [report](https://github.com/donatienLeray/WortEx/blob/main/report/report.pdf)
 
@@ -117,15 +120,34 @@ Just replace the file `data/background.png` and `data/game_background.png` with 
 The name has to stay exactly the same.
 
 ## Troubleshooting
-If the code can't be run because of the emojis in the menu.py file, you can remove them or replace them with a blank string.
+- [Dependencies](#dependencies)
+- [How to run](#how-to-run)
+- [How to play](#how-to-play)
+- [Add your own language!](#add-your-own-language)
+- [Change background](#change-background)
+- [Troubleshooting](#troubleshooting)
+  - [Trouble with emojis](#trouble-with-emojis)
+  - [Trouble with the database](#trouble-with-the-database)
+  - [Other problems](#other-problems)
+
+### Trouble with emojis
+If the code can't be run because of the emojis in the menu.py file:
+1. make sure pygame_emojis is installed by running:\
+   ```pip install pygame-emojis```
+2. if this doesn't work you can remove them or replace them with a blank string.
 (line 93)
 ```python
     # language flag dictionary
     dict = {'english': ' ', 'german': ' ' }
 ```
-
+### Trouble with the database
 if you get an `sqlite3.OperationalError: no such table:...` error.
 1. try again to see if the error is persistent.
 2. replace your database `data/words.sqlite` with the one from the repo (this will reset all the scoretables and the language)
 3. reinstall the game.
 4. if nothing works please open an issue.
+
+### Other problems
+
+if you find another reproducible problem, please open an issue.
+
